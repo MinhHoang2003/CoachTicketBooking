@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CoachTicketBooking</string>
+    <string name="left_menu_home">Home</string>
+    <string name="left_menu_profile">My Profile</string>
+    <string name="left_menu_my_tickets">My Tickets</string>
+    <string name="left_menu_notifications">Notifications</string>
 </resources>
