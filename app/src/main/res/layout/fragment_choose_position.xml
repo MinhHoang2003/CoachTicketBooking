@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_color"
+    tools:context=".screen.choose_position.ChoosePositionFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/subToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/background_not_selected_position" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Ghế chưa chọn"
+            android:textColor="@color/black" />
+
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/background_selected_position" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Ghế đã chọn"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerPositions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/subToolbar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomDetailContainer"
+        android:layout_width="match_parent"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/titlePositionCode"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Mã ghế"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textPositionCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/titlePositionCode"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAlignment="textEnd"
+            android:text="__"
+            android:textColor="@color/black"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@id/titlePositionCode"
+            app:layout_constraintTop_toTopOf="@id/titlePositionCode" />
+
+        <TextView
+            android:id="@+id/titleSum"
+            app:layout_constraintTop_toBottomOf="@id/titlePositionCode"
+            app:layout_constraintStart_toStartOf="@id/titlePositionCode"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="Tổng số tiền"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textSum"
+            app:layout_constraintEnd_toEndOf="@id/textPositionCode"
+            app:layout_constraintTop_toBottomOf="@id/textPositionCode"
+            android:textAlignment="textEnd"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            tools:text="4.200.000d"
+            android:text="0d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            app:layout_constraintTop_toBottomOf="@id/titleSum"
+            android:id="@+id/btnContinue"
+            android:background="@color/noti"
+            android:text="Tiếp tục"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white"
+            android:foreground="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

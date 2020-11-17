@@ -1,7 +1,6 @@
 package com.example.coachticketbooking.screen.home
 
-import androidx.lifecycle.ViewModel
+import com.example.coachticketbooking.base.BaseViewModel
 
-class HomeViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class HomeViewModel : BaseViewModel() {
 }

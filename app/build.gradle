@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -73,4 +74,6 @@ dependencies {
     //Circle image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.6'
 }

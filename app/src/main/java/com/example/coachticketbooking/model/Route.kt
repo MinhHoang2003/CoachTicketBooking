@@ -7,8 +7,15 @@ data class Route(
     @SerializedName("coach_id")
     val coachId: String,
     @SerializedName("start_time")
-    //TODO : on server start time and end time is Time ( object type) need to check before get
-    val startTime : String,
+    val startTime: String,
     @SerializedName("estimate_end_time")
-    val endTime : String
+    val endTime: String,
+    @SerializedName("number_position")
+    val numberPosition: Int,
+    @SerializedName("start_address")
+    val startAddress: String,
+    @SerializedName("end_address")
+    val endAddress: String,
+    val price: Int,
+    val remain: Int
 )

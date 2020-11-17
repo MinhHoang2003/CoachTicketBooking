@@ -1,4 +1,4 @@
-package com.example.coachticketbooking.base
+package com.example.coachticketbooking.dialog
 
 import android.app.Dialog
 import android.content.Context
