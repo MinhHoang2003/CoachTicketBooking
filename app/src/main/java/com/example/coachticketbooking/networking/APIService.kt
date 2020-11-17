@@ -1,13 +1,9 @@
 package com.example.coachticketbooking.networking
 
-import com.example.coachticketbooking.model.User
-import com.example.coachticketbooking.model.UserLoginInformation
+import com.example.coachticketbooking.model.*
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface APIService {
     @GET("users/{phone_number}")
@@ -18,4 +14,15 @@ interface APIService {
 
     @POST("users/login/")
     fun login(@Body userLoginInformation: UserLoginInformation): Completable
+
+    @GET("routes/search")
+    fun searchRoute(
+        @Query("pick_location") pickLocation: String,
+        @Query("destination") destination: String,
+        @Query("date") date: String
+    ): Single<List<Route>>
+
+    @GET("routes/position")
+    fun getPosition(@Query("route_id") id: Int, @Query("date") date: String): Single<List<Position>>
+
 }

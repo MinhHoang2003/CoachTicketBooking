@@ -5,9 +5,10 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.coachticketbooking.R
+import com.example.coachticketbooking.dialog.DialogLoading
 import java.lang.IllegalArgumentException
 
-abstract class BaseActivity : AppCompatActivity(), BaseTransitionFragment {
+abstract class BaseActivity : AppCompatActivity(), BaseView, BaseTransitionFragment {
     companion object {
         private const val MIN_BACK_STACK_ANIMATION = 4
         private const val MIN_NON_BACK_STACK_ANIMATION = 4
@@ -15,31 +16,31 @@ abstract class BaseActivity : AppCompatActivity(), BaseTransitionFragment {
 
     private val mDialogLoading: DialogLoading by lazy { DialogLoading(this) }
 
-    fun hideSoftKeyboard() {
+    override fun hideSoftKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         currentFocus?.let { currentFocus ->
             imm.hideSoftInputFromWindow(currentFocus.windowToken, 0)
         }
     }
 
-    fun showSoftKeyboard() {
+    override fun showSoftKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (!imm.isAcceptingText) {
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         }
     }
 
-    fun showLoading() {
+    override fun showLoading() {
         if (!mDialogLoading.isShowing) mDialogLoading.showDialog()
     }
 
-    fun hideLoading() {
+    override fun hideLoading() {
         if (mDialogLoading.isShowing) mDialogLoading.hideDialog()
     }
 
     override fun popBackStack() {
         val fm = supportFragmentManager
-        if (fm.backStackEntryCount > 0) {
+        if (fm.backStackEntryCount > 1) {
             fm.popBackStack()
         } else {
             finish()
@@ -59,17 +60,15 @@ abstract class BaseActivity : AppCompatActivity(), BaseTransitionFragment {
         fragment: Fragment,
         withAnimation: Boolean,
         animation: IntArray?,
-        containerView: Int,
         tag: String?
     ) {
-        showFragment(fragment, true, withAnimation, animation, containerView, tag)
+        showFragment(fragment, true, withAnimation, animation, tag)
     }
 
     override fun addFragment(
         fragment: Fragment,
         withAnimation: Boolean,
         animation: IntArray?,
-        containerView: Int,
         tag: String?
     ) {
         supportFragmentManager.beginTransaction().apply {
@@ -86,7 +85,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseTransitionFragment {
             }
 
             addToBackStack(fragment.tag)
-            add(containerView, fragment)
+            add(getContainerFragmentView(), fragment)
             commit()
         }
     }
@@ -95,10 +94,9 @@ abstract class BaseActivity : AppCompatActivity(), BaseTransitionFragment {
         fragment: Fragment,
         withAnimation: Boolean,
         animation: IntArray?,
-        containerView: Int,
         tag: String?
     ) {
-        showFragment(fragment, false, withAnimation, animation, containerView, tag)
+        showFragment(fragment, false, withAnimation, animation, tag)
     }
 
     override fun removeFragment(fragment: Fragment) {
@@ -110,7 +108,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseTransitionFragment {
         hasAddBackStack: Boolean,
         withAnimation: Boolean,
         animation: IntArray?,
-        containerView: Int,
         tag: String?
     ) {
         supportFragmentManager.beginTransaction().apply {
@@ -134,9 +131,11 @@ abstract class BaseActivity : AppCompatActivity(), BaseTransitionFragment {
             if (hasAddBackStack) {
                 addToBackStack(tag)
             }
-            replace(containerView, fragment, tag)
+            replace(getContainerFragmentView(), fragment, tag)
             commitAllowingStateLoss()
         }
     }
+
+    abstract fun getContainerFragmentView(): Int
 
 }

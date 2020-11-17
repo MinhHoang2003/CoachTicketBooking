@@ -9,7 +9,6 @@ interface BaseTransitionFragment {
         fragment: Fragment,
         withAnimation: Boolean = false,
         animation: IntArray? = null,
-        containerView: Int,
         tag: String? = null
     )
 
@@ -17,7 +16,6 @@ interface BaseTransitionFragment {
         fragment: Fragment,
         withAnimation: Boolean = false,
         animation: IntArray? = null,
-        containerView: Int,
         tag: String? = null
     )
 
@@ -25,7 +23,6 @@ interface BaseTransitionFragment {
         fragment: Fragment,
         withAnimation: Boolean = false,
         animation: IntArray? = null,
-        containerView: Int,
         tag: String? = null
     )
 

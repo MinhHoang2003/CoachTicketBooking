@@ -15,9 +15,11 @@ fun View.gone() {
 }
 
 fun View.enable() {
+    alpha = 1f
     isEnabled = true
 }
 
 fun View.disable() {
+    alpha = 0.3f
     isEnabled = false
 }
