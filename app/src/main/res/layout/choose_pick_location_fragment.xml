@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
-    tools:context=".screen.choose_position.choose_position_infor.ChoosePickLocationFragment">
+    tools:context=".screen.choose_location.choose_location_info.ChoosePickLocationFragment">
 
     <TextView
         android:layout_width="match_parent"
@@ -14,7 +13,7 @@
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
-        tools:text="Vui lòng chọn điểm lên" />
+        android:text="Vui lòng chọn điểm lên" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerLocationPicker"

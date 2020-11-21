@@ -10,7 +10,7 @@
     android:gravity="center">
 
     <TextView
-        android:id="@+id/textPositionCode"
+        android:id="@+id/textCode"
         tools:text="12A"
         android:textColor="@color/black"
         android:textStyle="bold"

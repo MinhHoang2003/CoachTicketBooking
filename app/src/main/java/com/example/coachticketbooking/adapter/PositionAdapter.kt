@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coachticketbooking.R
+import com.example.coachticketbooking.base.DebugLog
 import com.example.coachticketbooking.model.Position
 import com.example.coachticketbooking.utils.Constants
 import kotlinx.android.synthetic.main.layout_position_item.view.*
@@ -23,6 +24,7 @@ class PositionAdapter(val context: Context) :
     private val positions = mutableListOf<Position>()
     val selectedPositions = mutableListOf<Position>()
     var onItemClick: ((id: String) -> Unit)? = null
+    var onSelectedChangeListener: ((code: List<String>) -> Unit)? = null
 
     fun setDate(positions: List<Position>) {
         this.positions.clear()
@@ -30,12 +32,22 @@ class PositionAdapter(val context: Context) :
         notifyDataSetChanged()
     }
 
+    fun addSelections(position: Position) {
+        selectedPositions.add(position)
+        onSelectedChangeListener?.invoke(selectedPositions.map { selectedPosition -> selectedPosition.positionCode })
+    }
+
+    fun removeSelections(position: Position) {
+        selectedPositions.remove(position)
+        onSelectedChangeListener?.invoke(selectedPositions.map { selectedPosition -> selectedPosition.positionCode })
+    }
+
     inner class PositionViewHolder(
         itemView: View,
         private val onItemClick: ((id: String) -> Unit)? = null
     ) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        private val textPositionCode: TextView = itemView.textPositionCode
+        private val textPositionCode: TextView = itemView.textCode
         private val backgroundPosition: LinearLayout = itemView.backgroundPosition
 
         init {
@@ -44,7 +56,7 @@ class PositionAdapter(val context: Context) :
 
         override fun onClick(v: View?) {
             val position = positions[adapterPosition]
-            if (position.hasPaid == 1) return
+            if (position.hasPaid == 1 || position.positionCode == Constants.EMPTY_STRING) return
             notifyItemChanged(adapterPosition, ACTION_CHOOSE_POSITION)
             onItemClick?.invoke(position.positionCode)
         }
@@ -72,14 +84,14 @@ class PositionAdapter(val context: Context) :
         fun changedSelection(position: Int) {
             val p = positions[position]
             if (selectedPositions.contains(p)) {
-                selectedPositions.remove(p)
+                removeSelections(p)
                 backgroundPosition.background =
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.background_not_selected_position
                     )
             } else {
-                selectedPositions.add(p)
+                addSelections(p)
                 backgroundPosition.background =
                     ContextCompat.getDrawable(context, R.drawable.background_select_position)
             }
