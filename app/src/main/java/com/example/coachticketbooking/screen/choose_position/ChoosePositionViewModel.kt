@@ -11,6 +11,7 @@ import com.example.coachticketbooking.model.converter.PositionConverter
 import com.example.coachticketbooking.networking.RetrofitClient
 import com.example.coachticketbooking.repository.chooose_position.ChoosePositionRepository
 import com.example.coachticketbooking.repository.chooose_position.IChoosePositionRepository
+import com.example.coachticketbooking.utils.Constants
 import com.example.coachticketbooking.utils.FileManager
 import io.reactivex.rxjava3.core.Single
 
@@ -26,6 +27,8 @@ class ChoosePositionViewModel(
 
     private val fileManager = FileManager.getInstance(context)
     var positionsLiveData: MutableLiveData<List<Position>> = MutableLiveData(arrayListOf())
+    var currentRouteId: Int = -1
+    var currentDate: String = Constants.EMPTY_STRING
 
     fun getPositions(routeId: Int, date: String, floor: Int = 1) {
         val localPositions = mutableListOf<Position>()

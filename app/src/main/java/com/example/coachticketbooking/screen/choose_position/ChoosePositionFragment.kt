@@ -6,13 +6,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.coachticketbooking.R
 import com.example.coachticketbooking.adapter.PositionAdapter
 import com.example.coachticketbooking.base.BaseFragment
+import com.example.coachticketbooking.base.DebugLog
+import com.example.coachticketbooking.model.UserData
 import com.example.coachticketbooking.repository.chooose_position.ChoosePositionViewModelFactory
+import com.example.coachticketbooking.screen.choose_location.ChooseLocationFragment
 import kotlinx.android.synthetic.main.fragment_choose_position.*
 
 
 class ChoosePositionFragment : BaseFragment() {
-    private var param1: String? = null
-    private var param2: String? = null
+
     private lateinit var mPositionAdapter: PositionAdapter
     lateinit var mChoosePositionViewModel: ChoosePositionViewModel
     lateinit var mChoosePositionViewModelFactory: ChoosePositionViewModelFactory
@@ -35,6 +37,8 @@ class ChoosePositionFragment : BaseFragment() {
 
     override fun initView() {
         context?.let {
+            toolbar.setNavigationIcon(R.drawable.icon_arrow_left)
+            toolbar.title = "Chọn ghế ngồi"
             mPositionAdapter = PositionAdapter(it)
             recyclerPositions.apply {
                 adapter = mPositionAdapter
@@ -62,8 +66,18 @@ class ChoosePositionFragment : BaseFragment() {
     }
 
     override fun initListener() {
-        mPositionAdapter.onItemClick = {
-            textPositionCode.text = mPositionAdapter.selectedPositions.toString()
+        mPositionAdapter.onSelectedChangeListener = {
+            if (it.isNotEmpty()) {
+                UserData.position.clear()
+                UserData.position.addAll(mPositionAdapter.selectedPositions)
+                textPositionCode.text = it.toString().substring(1, it.toString().length - 1)
+            } else {
+                textPositionCode.text = "__"
+            }
+        }
+        btnContinue.setOnClickListener {
+            val chooseLocationFragment = ChooseLocationFragment.newInstance()
+            pushFragment(chooseLocationFragment, withAnimation = true)
         }
     }
 

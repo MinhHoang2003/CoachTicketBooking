@@ -25,4 +25,10 @@ interface APIService {
     @GET("routes/position")
     fun getPosition(@Query("route_id") id: Int, @Query("date") date: String): Single<List<Position>>
 
+    @GET("locations/pick")
+    fun getPickLocation(@Query("route_id") id: Int): Single<List<Location>>
+
+    @GET("locations/destination")
+    fun getDestinationLocation(@Query("route_id") id: Int): Single<List<Location>>
+
 }

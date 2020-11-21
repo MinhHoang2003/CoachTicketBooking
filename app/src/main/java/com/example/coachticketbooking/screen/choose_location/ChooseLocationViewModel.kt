@@ -1,4 +1,4 @@
-package com.example.coachticketbooking.screen
+package com.example.coachticketbooking.screen.choose_location
 
 import androidx.lifecycle.ViewModel
 

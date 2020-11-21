@@ -31,7 +31,7 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun initView() {
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        btnFindRoute.disable()
+//        btnFindRoute.disable()
         datePickerContainer.setOnClickListener(this)
         btnFindRoute.setOnClickListener(this)
         edtPickLocation.addTextChangedListener {
