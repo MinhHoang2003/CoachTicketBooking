@@ -1,21 +1,14 @@
 package com.example.coachticketbooking.screen.routes
 
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.coachticketbooking.R
 import com.example.coachticketbooking.adapter.RouteAdapter
 import com.example.coachticketbooking.base.BaseFragment
-import com.example.coachticketbooking.base.DebugLog
 import com.example.coachticketbooking.model.RouteSearchPattern
+import com.example.coachticketbooking.model.UserData
 import com.example.coachticketbooking.screen.choose_position.ChoosePositionFragment
-import com.example.coachticketbooking.screen.home.HomeViewModel
 import com.example.coachticketbooking.utils.Constants
 import kotlinx.android.synthetic.main.fragment_routes.*
 
@@ -37,12 +30,10 @@ class RoutesFragment : BaseFragment() {
     private val routesAdapter = RouteAdapter()
 
 
-
     override fun initData(bundle: Bundle?) {
         mRoutesViewModel = ViewModelProvider(this).get(RoutesViewModel::class.java)
         bundle?.apply {
             search = getParcelable(KEY_SEARCH_QUERY)
-            DebugLog.d("Hoang $search")
             search?.apply {
                 textRouteTitle.text = String.format("%s --> %s", pickLocation, destination)
                 textDate.text = date
@@ -58,10 +49,14 @@ class RoutesFragment : BaseFragment() {
     }
 
     override fun initListener() {
-        routesAdapter.onItemClick = {
+        routesAdapter.onItemClick = { selectedRoute ->
             // Show fragment choose position.
+            UserData.apply {
+                resetData()
+                route = selectedRoute
+            }
             val choosePositionFragment = ChoosePositionFragment.newInstance(
-                it.toString(),
+                selectedRoute.id.toString(),
                 search?.date ?: Constants.EMPTY_STRING
             )
             pushFragment(choosePositionFragment, withAnimation = true, tag = "Choose Position")

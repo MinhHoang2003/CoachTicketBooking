@@ -26,10 +26,17 @@ class PositionAdapter(val context: Context) :
     var onItemClick: ((id: String) -> Unit)? = null
     var onSelectedChangeListener: ((code: List<String>) -> Unit)? = null
 
-    fun setDate(positions: List<Position>) {
+    fun setData(positions: List<Position>) {
         this.positions.clear()
         this.positions.addAll(positions)
         notifyDataSetChanged()
+    }
+
+    fun addSelectionPosition(selections: List<Position>) {
+        selectedPositions.clear()
+        selectedPositions.addAll(selections)
+        notifyDataSetChanged()
+        onSelectedChangeListener?.invoke(selectedPositions.map { selectedPosition -> selectedPosition.positionCode })
     }
 
     fun addSelections(position: Position) {
@@ -63,8 +70,10 @@ class PositionAdapter(val context: Context) :
 
         fun bindView(position: Position) {
             when {
-                position.positionCode == Constants.EMPTY_STRING -> backgroundPosition.background =
-                    null
+                position.positionCode == Constants.EMPTY_STRING -> {
+                    backgroundPosition.background = null
+                    textPositionCode.text = Constants.EMPTY_STRING
+                }
                 position.hasPaid == 1 -> {
                     textPositionCode.text = position.positionCode
                     backgroundPosition.background =
@@ -79,21 +88,34 @@ class PositionAdapter(val context: Context) :
                         )
                 }
             }
+            if (selectedPositions.contains(position)) {
+                showSelectionState(true)
+            } else if (position.positionCode != Constants.EMPTY_STRING) {
+                showSelectionState(false)
+            }
         }
 
         fun changedSelection(position: Int) {
             val p = positions[position]
             if (selectedPositions.contains(p)) {
                 removeSelections(p)
+                showSelectionState(false)
+            } else {
+                addSelections(p)
+                showSelectionState(true)
+            }
+        }
+
+        private fun showSelectionState(isSelected: Boolean) {
+            if (isSelected) {
+                backgroundPosition.background =
+                    ContextCompat.getDrawable(context, R.drawable.background_select_position)
+            } else {
                 backgroundPosition.background =
                     ContextCompat.getDrawable(
                         context,
                         R.drawable.background_not_selected_position
                     )
-            } else {
-                addSelections(p)
-                backgroundPosition.background =
-                    ContextCompat.getDrawable(context, R.drawable.background_select_position)
             }
         }
 

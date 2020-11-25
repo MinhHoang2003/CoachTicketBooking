@@ -4,11 +4,15 @@ import android.os.Bundle
 import com.example.coachticketbooking.R
 import com.example.coachticketbooking.adapter.LocationPagerAdapter
 import com.example.coachticketbooking.base.BaseFragment
+import com.example.coachticketbooking.model.UserData
+import com.example.coachticketbooking.screen.ticket.PreviewTicketFragment
+import com.example.coachticketbooking.utils.Utils
 import kotlinx.android.synthetic.main.choose_location_fragment.*
 
 class ChooseLocationFragment : BaseFragment() {
 
     companion object {
+        const val CHOOSE_LOCATION_FRAGMENT_TAG = "ChooseLocationFragment"
         fun newInstance() = ChooseLocationFragment()
     }
 
@@ -20,11 +24,12 @@ class ChooseLocationFragment : BaseFragment() {
         viewPager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(viewPager)
         toolbar.setNavigationIcon(R.drawable.icon_arrow_left)
-        toolbar.title = "Chọn điểm lên xuống xe"
+        toolbar.title = getString(R.string.chooseLocationTitile)
     }
 
     override fun initData(bundle: Bundle?) {
-        // Do nothing
+        textPositionCode.text = UserData.position.map { it.positionCode }.toString()
+        textSum.text = String.format("%sd", Utils.getCurrencyFormat(UserData.price))
     }
 
     override fun initObserver() {
@@ -32,7 +37,12 @@ class ChooseLocationFragment : BaseFragment() {
 
     override fun initListener() {
         btnContinue.setOnClickListener {
+            val previewTicketFragment = PreviewTicketFragment.newInstance()
+            pushFragment(previewTicketFragment, withAnimation = true, tag = "PreviewTicket")
+        }
 
+        toolbar.setNavigationOnClickListener {
+            popBackStack()
         }
     }
 }

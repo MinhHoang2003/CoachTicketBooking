@@ -76,4 +76,8 @@ dependencies {
 
     // Gson
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    //Paypal payment
+    implementation 'com.paypal.sdk:paypal-android-sdk:2.16.0'
+
 }

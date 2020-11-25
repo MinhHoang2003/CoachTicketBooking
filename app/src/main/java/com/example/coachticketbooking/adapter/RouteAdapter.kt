@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.layout_route_items.view.*
 class RouteAdapter : RecyclerView.Adapter<RouteAdapter.RouteViewHolder>() {
 
     private val routes = mutableListOf<Route>()
-    var onItemClick: ((id: Int) -> Unit)? = null
+    var onItemClick: ((route: Route) -> Unit)? = null
 
     fun setData(routes: List<Route>) {
         this.routes.clear()
@@ -20,7 +20,7 @@ class RouteAdapter : RecyclerView.Adapter<RouteAdapter.RouteViewHolder>() {
         notifyDataSetChanged()
     }
 
-    inner class RouteViewHolder(itemView: View, private val onItemClick: ((id: Int) -> Unit)? = null) :
+    inner class RouteViewHolder(itemView: View, private val onItemClick: ((route: Route) -> Unit)? = null) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         private val textStartTime: TextView = itemView.textStartTime
@@ -47,7 +47,7 @@ class RouteAdapter : RecyclerView.Adapter<RouteAdapter.RouteViewHolder>() {
         }
 
         override fun onClick(v: View?) {
-            onItemClick?.invoke(routes[adapterPosition].id)
+            onItemClick?.invoke(routes[adapterPosition])
         }
     }
 

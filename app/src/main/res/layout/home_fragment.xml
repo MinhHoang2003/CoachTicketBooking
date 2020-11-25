@@ -37,6 +37,7 @@
                     android:layout_marginStart="10dp"
                     android:background="@null"
                     android:hint="Pick location"
+                    android:text="Ho Chi Minh"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
@@ -64,6 +65,7 @@
                     android:layout_marginStart="10dp"
                     android:background="@null"
                     android:hint="Destination"
+                    android:text="Ha Noi"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 

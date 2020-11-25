@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.coachticketbooking.R
 import com.example.coachticketbooking.adapter.LocationAdapter
 import com.example.coachticketbooking.base.BaseFragment
+import com.example.coachticketbooking.model.User
+import com.example.coachticketbooking.model.UserData
 import com.example.coachticketbooking.screen.routes.RoutesViewModel
 import com.example.coachticketbooking.utils.Constants
 import kotlinx.android.synthetic.main.choose_location_fragment.*
@@ -48,7 +50,7 @@ class ChoosePickLocationFragment : BaseFragment() {
     }
 
     override fun initData(bundle: Bundle?) {
-        var routeId = 1
+        val routeId = UserData.route?.id ?: -1
         bundle?.apply {
             mCurrentMode = getInt(KEY_MODE, MODE_PICK_LOCATION)
         }
@@ -65,17 +67,28 @@ class ChoosePickLocationFragment : BaseFragment() {
 
     override fun initObserver() {
         if (mCurrentMode == MODE_PICK_LOCATION) {
-            mChoosePickLocationViewModel.pickLocationLiveData.observe(this, {
-                mLocationAdapter.setData(it)
+            mChoosePickLocationViewModel.pickLocationLiveData.observe(this, { pickLocations ->
+                mLocationAdapter.setData(pickLocations)
+                UserData.pickLocation?.let { mLocationAdapter.setCurrentLocation(it) }
             })
         } else {
-            mChoosePickLocationViewModel.destinationLocationLiveData.observe(this, {
-                mLocationAdapter.setData(it)
+            mChoosePickLocationViewModel.destinationLocationLiveData.observe(this, { destinations ->
+                mLocationAdapter.setData(destinations)
+                UserData.destination?.let {
+                    mLocationAdapter.setCurrentLocation(it)
+                }
             })
         }
     }
 
     override fun initListener() {
+        mLocationAdapter.onLocationClickListener = {
+            if (mCurrentMode == MODE_PICK_LOCATION) {
+                UserData.pickLocation = it
+            } else {
+                UserData.destination = it
+            }
+        }
     }
 
 }
