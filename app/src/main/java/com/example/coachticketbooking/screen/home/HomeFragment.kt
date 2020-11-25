@@ -12,6 +12,7 @@ import com.example.coachticketbooking.base.BaseFragment
 import com.example.coachticketbooking.base.disable
 import com.example.coachticketbooking.base.enable
 import com.example.coachticketbooking.dialog.DatePickerBottomSheet
+import com.example.coachticketbooking.model.UserData
 import com.example.coachticketbooking.screen.MainActivity
 import com.example.coachticketbooking.utils.Utils
 import kotlinx.android.synthetic.main.home_fragment.*
@@ -43,8 +44,10 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
         }
     }
 
-     override fun initData(bundle: Bundle?) {
+    override fun initData(bundle: Bundle?) {
         textDate.text = Utils.getCurrentTime()
+        UserData.resetData()
+        UserData.date = Utils.getCurrentTime()
     }
 
     override fun initObserver() {

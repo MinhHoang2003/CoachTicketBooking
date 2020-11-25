@@ -6,4 +6,8 @@
     <string name="left_menu_notifications">Notifications</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="previewTicketScreenTitle">Thông tin vé xe</string>
+    <string name="choosePositionTitle">Chọn ghế ngồi</string>
+    <string name="choosePositionUnSelectedTitle">__</string>
+    <string name="chooseLocationTitile">Chọn điểm lên xuống xe</string>
 </resources>

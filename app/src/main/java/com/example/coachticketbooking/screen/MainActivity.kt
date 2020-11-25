@@ -1,5 +1,6 @@
 package com.example.coachticketbooking.screen
 
+import android.content.Intent
 import android.os.Bundle
 import com.example.coachticketbooking.R
 import com.example.coachticketbooking.base.BaseActivity
@@ -31,6 +32,12 @@ class MainActivity : BaseActivity() {
 
     override fun onBackPressed() {
         popBackStack()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val fragment = supportFragmentManager.findFragmentByTag("PreviewTicket")
+        fragment?.onActivityResult(requestCode, resultCode, data)
     }
 
 }

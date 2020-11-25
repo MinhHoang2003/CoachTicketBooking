@@ -23,6 +23,11 @@ class LocationAdapter : RecyclerView.Adapter<LocationAdapter.LocationViewHolder>
         notifyDataSetChanged()
     }
 
+    fun setCurrentLocation(location: Location) {
+        mCurrentLocation = mLocations.indexOf(location)
+        notifyItemChanged(mCurrentLocation)
+    }
+
     inner class LocationViewHolder(itemView: View, private val listener: ((Location) -> Unit)?) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
