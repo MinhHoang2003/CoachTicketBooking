@@ -16,9 +16,8 @@ class UserRepository(private val apiService: APIService) : IUserRepository {
 
     override fun register(user: User): Completable = apiService.register(user)
 
-    override fun login(username: String, password: String): Completable {
+    override fun login(username: String, password: String): Single<List<User>> {
         val userLoginInformation = UserLoginInformation(username, password)
-        //TODO need validate in client side
         return apiService.login(userLoginInformation)
     }
 

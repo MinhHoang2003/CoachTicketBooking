@@ -13,7 +13,7 @@ interface APIService {
     fun register(@Body user: User): Completable
 
     @POST("users/login/")
-    fun login(@Body userLoginInformation: UserLoginInformation): Completable
+    fun login(@Body userLoginInformation: UserLoginInformation): Single<List<User>>
 
     @GET("routes/search")
     fun searchRoute(
@@ -31,4 +31,6 @@ interface APIService {
     @GET("locations/destination")
     fun getDestinationLocation(@Query("route_id") id: Int): Single<List<Location>>
 
+    @POST("tickets/")
+    fun createTicket(@Body ticket: TicketLocalModel): Single<String>
 }

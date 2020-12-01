@@ -1,6 +1,7 @@
 package com.example.coachticketbooking.base
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -14,6 +15,12 @@ fun Disposable.addToCompositeDisposable(compositeDisposable: CompositeDisposable
 }
 
 fun <T> Observable<T>.applyScheduler(): Observable<T> {
+    return this
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+}
+
+fun Completable.applyScheduler(): Completable {
     return this
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())

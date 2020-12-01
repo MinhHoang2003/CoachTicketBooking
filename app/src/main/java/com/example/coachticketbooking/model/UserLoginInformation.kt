@@ -1,6 +1,6 @@
 package com.example.coachticketbooking.model
 
 data class UserLoginInformation(
-    val username: String,
+    val phone_number: String,
     val password: String
 )
