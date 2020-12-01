@@ -90,7 +90,7 @@ class PositionAdapter(val context: Context) :
             }
             if (selectedPositions.contains(position)) {
                 showSelectionState(true)
-            } else if (position.positionCode != Constants.EMPTY_STRING) {
+            } else if (position.positionCode != Constants.EMPTY_STRING && position.hasPaid != 1) {
                 showSelectionState(false)
             }
         }

@@ -1,9 +1,8 @@
-package com.example.coachticketbooking.repository.chooose_position
+package com.example.coachticketbooking.screen.choose_position
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.coachticketbooking.screen.choose_position.ChoosePositionViewModel
 
 class ChoosePositionViewModelFactory(
     private val context: Context

@@ -3,17 +3,27 @@ package com.example.coachticketbooking.screen.ticket
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.example.coachticketbooking.R
 import com.example.coachticketbooking.base.BaseFragment
 import com.example.coachticketbooking.base.DebugLog
+import com.example.coachticketbooking.dialog.DialogTicketQRPreview
+import com.example.coachticketbooking.model.Location
+import com.example.coachticketbooking.model.TicketLocalModel
+import com.example.coachticketbooking.model.User
 import com.example.coachticketbooking.model.UserData
+import com.example.coachticketbooking.screen.authentication.AuthenticationActivity
 import com.example.coachticketbooking.utils.Constants
+import com.example.coachticketbooking.utils.SharePreferenceUtils
 import com.example.coachticketbooking.utils.Utils
 import com.paypal.android.sdk.payments.PayPalConfiguration
 import com.paypal.android.sdk.payments.PayPalPayment
 import com.paypal.android.sdk.payments.PayPalService
 import com.paypal.android.sdk.payments.PaymentActivity
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.preview_ticket_fragment.*
+import net.glxn.qrgen.android.QRCode
 import java.math.BigDecimal
 
 class PreviewTicketFragment : BaseFragment() {
@@ -27,7 +37,7 @@ class PreviewTicketFragment : BaseFragment() {
         fun newInstance() = PreviewTicketFragment()
     }
 
-    private lateinit var viewModel: PreviewTicketViewModel
+    private lateinit var mPreviewTicketViewModel: PreviewTicketViewModel
     override fun getLayoutId(): Int = R.layout.preview_ticket_fragment
 
 
@@ -49,17 +59,48 @@ class PreviewTicketFragment : BaseFragment() {
     }
 
     override fun initData(bundle: Bundle?) {
+        mPreviewTicketViewModel = ViewModelProvider(this).get(PreviewTicketViewModel::class.java)
     }
 
     override fun initObserver() {
+        mPreviewTicketViewModel.ticketIdLiveDate.observe(this, { ticketId ->
+            if (ticketId == -1) return@observe
+            else {
+                val qr = QRCode.from(ticketId.toString()).bitmap()
+                context?.let {
+                    val dialogPreviewTicket = DialogTicketQRPreview(it)
+                    dialogPreviewTicket.showDialog(qr)
+                    dialogPreviewTicket.setOnDismissListener {
+                        rootActivity?.finish()
+                    }
+                    Toasty.success(
+                        it,
+                        getString(R.string.message_ticket_has_paid),
+                        Toast.LENGTH_SHORT,
+                        true
+                    ).show()
+                }
+            }
+        })
     }
 
     override fun initListener() {
         btnPay.setOnClickListener {
-            processPayment(
-                UserData.price,
-                String.format("%s -> %s", UserData.route?.startAddress, UserData.route?.endAddress)
-            )
+            context?.let {
+                val localUser = SharePreferenceUtils.getLocalUserInformation(it)
+                if (localUser == null) {
+                    startActivityForResult(Intent(context, AuthenticationActivity::class.java), 1)
+                } else {
+                    processPayment(
+                        UserData.price,
+                        String.format(
+                            "%s -> %s",
+                            UserData.route?.startAddress,
+                            UserData.route?.endAddress
+                        )
+                    )
+                }
+            }
         }
         toolbar.setNavigationOnClickListener {
             popBackStack()
@@ -81,7 +122,7 @@ class PreviewTicketFragment : BaseFragment() {
 
     private fun processPayment(price: Int, title: String) {
         val payPalPayment = PayPalPayment(
-            BigDecimal(22),
+            BigDecimal(price),
             "USD",
             title,
             PayPalPayment.PAYMENT_INTENT_SALE
@@ -94,14 +135,50 @@ class PreviewTicketFragment : BaseFragment() {
         startActivityForResult(intent, PAY_PAL_REQUEST_CODE)
     }
 
+    private fun requestTicket() {
+        context?.let { context ->
+            SharePreferenceUtils.getLocalUserInformation(context)?.apply {
+                mPreviewTicketViewModel.createTicket(
+                    TicketLocalModel(
+                        UserData.route?.id ?: -1,
+                        UserData.getDateConverted(),
+                        UserData.price,
+                        1,
+                        UserData.pickLocation?.id ?: -1,
+                        UserData.destination?.id ?: -1,
+                        UserData.position.map { it.positionCode },
+                        phoneNumber
+                    )
+                )
+            }
+
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PAY_PAL_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                DebugLog.e("Hoang on result ok")
+                requestTicket()
             } else {
-                DebugLog.e("Hoang on result err")
+                context?.let {
+                    Toasty.error(
+                        it,
+                        "Lỗi xảy ra khi thanh toán, vui lòng thử lại",
+                        Toast.LENGTH_SHORT,
+                        true
+                    ).show()
+                }
             }
+        } else if (requestCode == 1) {
+            processPayment(
+                UserData.price,
+                String.format(
+                    "%s -> %s",
+                    UserData.route?.startAddress,
+                    UserData.route?.endAddress
+                )
+            )
         }
     }
 }

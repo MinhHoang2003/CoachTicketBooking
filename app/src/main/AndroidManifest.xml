@@ -14,7 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoachTicketBooking"
         tools:targetApi="n">
-        <activity android:name=".screen.MainActivity"></activity>
+        <activity android:name=".screen.authentication.AuthenticationActivity">
+
+        </activity>
+        <activity android:name=".screen.MainActivity" />
         <activity android:name=".screen.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

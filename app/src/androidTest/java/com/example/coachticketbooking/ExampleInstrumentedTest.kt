@@ -1,5 +1,6 @@
 package com.example.coachticketbooking
 
+import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 
@@ -7,6 +8,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.math.log
 
 /**
  * Instrumented test, which will execute on an Android device.

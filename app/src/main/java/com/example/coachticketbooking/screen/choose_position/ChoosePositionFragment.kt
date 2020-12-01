@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.coachticketbooking.R
 import com.example.coachticketbooking.adapter.PositionAdapter
 import com.example.coachticketbooking.base.BaseFragment
+import com.example.coachticketbooking.base.DebugLog
 import com.example.coachticketbooking.model.UserData
-import com.example.coachticketbooking.repository.chooose_position.ChoosePositionViewModelFactory
 import com.example.coachticketbooking.screen.choose_location.ChooseLocationFragment
 import com.example.coachticketbooking.utils.Utils
 import kotlinx.android.synthetic.main.fragment_choose_position.*
@@ -54,7 +54,10 @@ class ChoosePositionFragment : BaseFragment() {
                 this,
                 mChoosePositionViewModelFactory
             ).get(ChoosePositionViewModel::class.java)
-            mChoosePositionViewModel.getPositions(UserData.route?.id ?: -1, "2020-11-15")
+            mChoosePositionViewModel.getPositions(
+                UserData.route?.id ?: -1,
+                UserData.getDateConverted()
+            )
         }
 
     }
@@ -81,6 +84,7 @@ class ChoosePositionFragment : BaseFragment() {
                 }
             } else {
                 textPositionCode.text = getString(R.string.choosePositionUnSelectedTitle)
+                textSum.text = String.format("%sd", 0)
             }
         }
         btnContinue.setOnClickListener {

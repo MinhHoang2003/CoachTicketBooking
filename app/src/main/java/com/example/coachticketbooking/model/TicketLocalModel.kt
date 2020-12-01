@@ -2,8 +2,7 @@ package com.example.coachticketbooking.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Ticket(
-    val id: Int,
+data class TicketLocalModel(
     @SerializedName("route_id")
     val routeId: Int,
     val date: String,
@@ -11,7 +10,11 @@ data class Ticket(
     @SerializedName("has_paid")
     val hasPaid: Int,
     @SerializedName("pick_id")
-    val pickLocationId : Int,
+    var pickLocationId: Int = -1,
     @SerializedName("destination_id")
-    val destinationId : Int
+    var destinationId: Int = -1,
+    @SerializedName("position_code")
+    val positionCode: List<String>,
+    @SerializedName("user_id")
+    val userId: String
 )

@@ -1,6 +1,7 @@
 package com.example.coachticketbooking.model
 
 import com.example.coachticketbooking.utils.Constants
+import com.example.coachticketbooking.utils.Utils
 
 object UserData {
     var route: Route? = null
@@ -20,5 +21,9 @@ object UserData {
     fun getPositionCode(): String {
         val code = position.map { it.positionCode }.toString()
         return code.substring(1, code.toString().length - 1)
+    }
+
+    fun getDateConverted(): String {
+        return Utils.getServerDateFormat(date)
     }
 }
