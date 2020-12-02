@@ -3,14 +3,12 @@ package com.example.coachticketbooking.screen.home
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import com.example.coachticketbooking.R
 import com.example.coachticketbooking.base.BaseFragment
-import com.example.coachticketbooking.base.disable
-import com.example.coachticketbooking.base.enable
+import com.example.coachticketbooking.base.view.disable
+import com.example.coachticketbooking.base.view.enable
 import com.example.coachticketbooking.dialog.DatePickerBottomSheet
 import com.example.coachticketbooking.model.UserData
 import com.example.coachticketbooking.screen.MainActivity

@@ -82,6 +82,10 @@ class PreviewTicketFragment : BaseFragment() {
                 }
             }
         })
+
+        mPreviewTicketViewModel.mLoading.observe(this, {
+            if(it) showLoading() else hideLoading()
+        })
     }
 
     override fun initListener() {

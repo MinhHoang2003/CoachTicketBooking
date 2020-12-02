@@ -48,6 +48,10 @@ class MyTicketFragment : BaseFragment() {
         mMyTicketViewModel.myTicketsLiveData.observe(this, {
             mMyTicketAdapter.setData(it)
         })
+
+        mMyTicketViewModel.mLoading.observe(this, {
+            if(it) showLoading() else hideLoading()
+        })
     }
 
     override fun initListener() {
