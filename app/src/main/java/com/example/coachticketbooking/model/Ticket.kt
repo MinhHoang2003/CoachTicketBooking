@@ -7,11 +7,8 @@ data class Ticket(
     @SerializedName("route_id")
     val routeId: Int,
     val date: String,
-    val price: Int,
-    @SerializedName("has_paid")
-    val hasPaid: Int,
-    @SerializedName("pick_id")
-    val pickLocationId : Int,
-    @SerializedName("destination_id")
-    val destinationId : Int
+    val start: String,
+    val end: String,
+    @SerializedName("position_code")
+    val positionCode: List<String>
 )

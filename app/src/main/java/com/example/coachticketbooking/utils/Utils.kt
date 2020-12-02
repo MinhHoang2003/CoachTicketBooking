@@ -23,4 +23,11 @@ object Utils {
         val networkDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
         return networkDateFormat.format(currentDate ?: Constants.EMPTY_STRING)
     }
+
+    fun parseLocalDateFormat(date: String): String {
+        val currentDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val currentDate = currentDateFormat.parse(date)
+        val networkDateFormat = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH)
+        return networkDateFormat.format(currentDate ?: Constants.EMPTY_STRING)
+    }
 }
