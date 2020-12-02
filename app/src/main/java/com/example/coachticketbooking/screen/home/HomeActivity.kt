@@ -16,6 +16,7 @@ import com.example.coachticketbooking.base.invisible
 import com.example.coachticketbooking.base.visible
 import com.example.coachticketbooking.screen.authentication.AuthenticationActivity
 import com.example.coachticketbooking.screen.authentication.login.LoginFragment
+import com.example.coachticketbooking.screen.my_ticket.MyTicketFragment
 import com.example.coachticketbooking.utils.SharePreferenceUtils
 import com.google.android.material.navigation.NavigationView
 import de.hdodenhof.circleimageview.CircleImageView
@@ -85,6 +86,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun showFragment() {
         mCurrentFragment = when (mCurrentTag) {
             TAG_HOME -> HomeFragment.newInstance()
+            TAG_MY_TICKETS -> MyTicketFragment.newInstance()
             else -> HomeFragment.newInstance()
         }
         pushFragment(mCurrentFragment, false, null, null)
@@ -93,6 +95,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_home -> mCurrentTag = TAG_HOME
+            R.id.menu_ticket -> mCurrentTag = TAG_MY_TICKETS
         }
         showFragment()
         drawerLayout.closeDrawer(GravityCompat.START)

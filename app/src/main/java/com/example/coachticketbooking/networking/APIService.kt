@@ -33,4 +33,10 @@ interface APIService {
 
     @POST("tickets/")
     fun createTicket(@Body ticket: TicketLocalModel): Single<String>
+
+    @GET("tickets")
+    fun getMyTickets(@Query("phone_number") phoneNumber: String): Single<List<Ticket>>
+
+    @GET("tickets/detail")
+    fun getTicketDetail(@Query("id") id : Int): Single<TicketDetail>
 }
