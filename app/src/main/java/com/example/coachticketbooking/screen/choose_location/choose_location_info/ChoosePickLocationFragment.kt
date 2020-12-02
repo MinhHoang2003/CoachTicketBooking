@@ -66,6 +66,9 @@ class ChoosePickLocationFragment : BaseFragment() {
     }
 
     override fun initObserver() {
+        mChoosePickLocationViewModel.mLoading.observe(this, {
+            if(it) showLoading() else hideLoading()
+        })
         if (mCurrentMode == MODE_PICK_LOCATION) {
             mChoosePickLocationViewModel.pickLocationLiveData.observe(this, { pickLocations ->
                 mLocationAdapter.setData(pickLocations)

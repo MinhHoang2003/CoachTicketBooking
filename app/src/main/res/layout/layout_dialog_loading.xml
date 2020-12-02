@@ -2,14 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F7F7"
     android:gravity="center">
 
-    <ProgressBar
-        android:background="@android:color/transparent"
-        android:indeterminate="true"
-        android:indeterminateTintMode="src_atop"
-        android:indeterminateTint="@color/noti"
+       <com.example.coachticketbooking.base.view.CircleProgress
         android:layout_width="100dp"
         android:layout_height="100dp" />
 

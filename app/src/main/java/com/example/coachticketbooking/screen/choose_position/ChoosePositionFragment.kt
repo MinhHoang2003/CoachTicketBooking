@@ -67,6 +67,9 @@ class ChoosePositionFragment : BaseFragment() {
             mPositionAdapter.setData(it)
             mPositionAdapter.addSelectionPosition(UserData.position)
         })
+        mChoosePositionViewModel.mLoading.observe(this, {
+            if(it) showLoading() else hideLoading()
+        })
     }
 
     override fun initListener() {

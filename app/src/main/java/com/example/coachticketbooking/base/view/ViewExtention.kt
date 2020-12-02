@@ -1,4 +1,4 @@
-package com.example.coachticketbooking.base
+package com.example.coachticketbooking.base.view
 
 import android.view.View
 
