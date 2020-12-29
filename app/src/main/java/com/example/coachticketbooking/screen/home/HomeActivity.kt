@@ -55,13 +55,11 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         val navigationHeader = nav_view.getHeaderView(0)
         imgAvatar = navigationHeader.imgAvatar
         textName = navigationHeader.textName
-        textPhoneNumber = navigationHeader.textPhoneNumber
         Glide.with(this).load(R.drawable.icon_user).into(imgAvatar)
         initData()
 
         imgAvatar.setOnClickListener(this)
         textName.setOnClickListener(this)
-        textPhoneNumber.setOnClickListener(this)
     }
 
     private fun initData() {
@@ -71,12 +69,8 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun initUser() {
         val localUser = SharePreferenceUtils.getLocalUserInformation(context = applicationContext)
         if (localUser != null) {
-            textName.text = localUser.name
-            textPhoneNumber.visible()
-            textPhoneNumber.text = localUser.phoneNumber
-//            Glide.with(this).load(localUser.avatarUrl).into(imgAvatar)
+            textName.text = String.format("Xin chào, %s", localUser.name)
         } else {
-            textPhoneNumber.invisible()
             textName.text = "Đăng nhập"
         }
     }

@@ -33,7 +33,6 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
     override fun initView() {
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 //        btnFindRoute.disable()
-        datePickerContainer.setOnClickListener(this)
         btnFindRoute.setOnClickListener(this)
         edtPickLocation.addTextChangedListener {
             checkEnableButtonFind()
@@ -69,11 +68,6 @@ class HomeFragment : BaseFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v) {
-            datePickerContainer -> {
-                val datePickerBottomSheet = DatePickerBottomSheet()
-                fragmentManager?.let { manager -> datePickerBottomSheet.show(manager, "TAG") }
-            }
-
             btnFindRoute -> {
                 val pickLocation = edtPickLocation.text.toString()
                 val destination = edtDestination.text.toString()

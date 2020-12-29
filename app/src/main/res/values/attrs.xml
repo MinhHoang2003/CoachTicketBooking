@@ -3,4 +3,8 @@
     <declare-styleable name="CircleProgress">
 
     </declare-styleable>
+
+    <declare-styleable name="DashedLineView">
+        <attr name="lineStrokeWidth" format="float">1</attr>
+    </declare-styleable>
 </resources>

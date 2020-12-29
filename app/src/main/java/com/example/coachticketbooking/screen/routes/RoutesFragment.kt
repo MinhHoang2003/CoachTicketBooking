@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.coachticketbooking.R
 import com.example.coachticketbooking.adapter.RouteAdapter
 import com.example.coachticketbooking.base.BaseFragment
+import com.example.coachticketbooking.base.view.gone
+import com.example.coachticketbooking.base.view.visible
 import com.example.coachticketbooking.model.RouteSearchPattern
 import com.example.coachticketbooking.model.UserData
 import com.example.coachticketbooking.screen.choose_position.ChoosePositionFragment
@@ -42,7 +44,11 @@ class RoutesFragment : BaseFragment() {
         search?.apply {
             textRouteTitle.text = String.format("%s --> %s", pickLocation, destination)
             textDate.text = date
-            mRoutesViewModel.searchRoutes(pickLocation, destination, Utils.getServerDateFormat(date))
+            mRoutesViewModel.searchRoutes(
+                pickLocation,
+                destination,
+                Utils.getServerDateFormat(date)
+            )
         }
     }
 
@@ -74,7 +80,11 @@ class RoutesFragment : BaseFragment() {
                 date = Utils.increaseNextDay(date)
                 UserData.date = date
                 textDate.text = date
-                mRoutesViewModel.searchRoutes(pickLocation, destination, Utils.getServerDateFormat(date))
+                mRoutesViewModel.searchRoutes(
+                    pickLocation,
+                    destination,
+                    Utils.getServerDateFormat(date)
+                )
             }
         }
 
@@ -83,7 +93,11 @@ class RoutesFragment : BaseFragment() {
                 date = Utils.decreasePreviousDay(date)
                 UserData.date = date
                 textDate.text = date
-                mRoutesViewModel.searchRoutes(pickLocation, destination, Utils.getServerDateFormat(date))
+                mRoutesViewModel.searchRoutes(
+                    pickLocation,
+                    destination,
+                    Utils.getServerDateFormat(date)
+                )
             }
         }
     }
@@ -103,6 +117,8 @@ class RoutesFragment : BaseFragment() {
         })
 
         mRoutesViewModel.routesLiveData.observe(this, {
+            if (it.isEmpty()) noDataContainer.visible()
+            else noDataContainer.gone()
             routesAdapter.setData(it)
         })
     }

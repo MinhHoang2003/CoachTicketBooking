@@ -24,7 +24,7 @@ class PreviewTicketViewModel : BaseViewModel() {
             .doOnSubscribe { mLoading.value = true }
             .doOnTerminate { mLoading.value = false }
             .subscribe { ticketId, err ->
-                if(err == null) {
+                if (err == null) {
                     ticketIdLiveDate.value = ticketId.toInt()
                 }
             }.addToCompositeDisposable(disposable)
