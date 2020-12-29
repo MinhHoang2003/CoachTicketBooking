@@ -61,6 +61,59 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/subToolbar" />
 
+
+    <LinearLayout
+        android:id="@+id/imgNext"
+        app:layout_goneMarginEnd="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomDetailContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:foreground="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="Lên tầng 2"
+            android:layout_marginEnd="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="10dp"
+            android:clickable="false"
+            android:duplicateParentState="true"
+            android:src="@drawable/icon_next" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/imgPrevious"
+        app:layout_goneMarginEnd="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomDetailContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
+        android:foreground="?attr/selectableItemBackground"
+        android:layout_width="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="10dp"
+            android:clickable="false"
+            android:duplicateParentState="true"
+            android:src="@drawable/icon_previous" />
+
+        <TextView
+            android:text="Xuống tầng 1"
+            android:layout_marginStart="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomDetailContainer"
         android:layout_width="match_parent"

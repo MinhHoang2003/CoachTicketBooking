@@ -11,6 +11,8 @@ object UserData {
     var destination: Location? = null
     var price: Int = 0
 
+    var searchPattern: RouteSearchPattern? = null
+
     fun resetData() {
         position = mutableListOf()
         pickLocation = null

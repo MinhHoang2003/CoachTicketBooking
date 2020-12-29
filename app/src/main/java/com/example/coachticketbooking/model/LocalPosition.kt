@@ -6,5 +6,8 @@ import com.google.gson.annotations.SerializedName
 data class LocalPosition(
     @SerializedName("46")
     @Expose
-    val coach42Position: List<List<String>>
+    val coach46Position: List<List<String>>,
+    @SerializedName("29")
+    @Expose
+    val coach29Position: List<String>
 )

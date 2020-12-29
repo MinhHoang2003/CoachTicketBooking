@@ -10,6 +10,7 @@ import com.example.coachticketbooking.model.RouteSearchPattern
 import com.example.coachticketbooking.model.UserData
 import com.example.coachticketbooking.screen.choose_position.ChoosePositionFragment
 import com.example.coachticketbooking.utils.Constants
+import com.example.coachticketbooking.utils.Utils
 import kotlinx.android.synthetic.main.fragment_routes.*
 
 class RoutesFragment : BaseFragment() {
@@ -34,11 +35,14 @@ class RoutesFragment : BaseFragment() {
         mRoutesViewModel = ViewModelProvider(this).get(RoutesViewModel::class.java)
         bundle?.apply {
             search = getParcelable(KEY_SEARCH_QUERY)
-            search?.apply {
-                textRouteTitle.text = String.format("%s --> %s", pickLocation, destination)
-                textDate.text = date
-                mRoutesViewModel.searchRoutes(pickLocation, destination, date)
-            }
+            remove(KEY_SEARCH_QUERY)
+            arguments = null
+        }
+
+        search?.apply {
+            textRouteTitle.text = String.format("%s --> %s", pickLocation, destination)
+            textDate.text = date
+            mRoutesViewModel.searchRoutes(pickLocation, destination, Utils.getServerDateFormat(date))
         }
     }
 
@@ -63,6 +67,24 @@ class RoutesFragment : BaseFragment() {
         }
         toolbar.setNavigationOnClickListener {
             popBackStack()
+        }
+
+        imgNext.setOnClickListener {
+            search?.apply {
+                date = Utils.increaseNextDay(date)
+                UserData.date = date
+                textDate.text = date
+                mRoutesViewModel.searchRoutes(pickLocation, destination, Utils.getServerDateFormat(date))
+            }
+        }
+
+        imgPrevious.setOnClickListener {
+            search?.apply {
+                date = Utils.decreasePreviousDay(date)
+                UserData.date = date
+                textDate.text = date
+                mRoutesViewModel.searchRoutes(pickLocation, destination, Utils.getServerDateFormat(date))
+            }
         }
     }
 

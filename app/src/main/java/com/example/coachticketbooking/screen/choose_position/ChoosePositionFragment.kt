@@ -6,9 +6,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.coachticketbooking.R
 import com.example.coachticketbooking.adapter.PositionAdapter
 import com.example.coachticketbooking.base.BaseFragment
-import com.example.coachticketbooking.base.DebugLog
+import com.example.coachticketbooking.base.view.disable
+import com.example.coachticketbooking.base.view.enable
+import com.example.coachticketbooking.base.view.invisible
+import com.example.coachticketbooking.base.view.visible
 import com.example.coachticketbooking.model.UserData
 import com.example.coachticketbooking.screen.choose_location.ChooseLocationFragment
+import com.example.coachticketbooking.utils.Constants
 import com.example.coachticketbooking.utils.Utils
 import kotlinx.android.synthetic.main.fragment_choose_position.*
 
@@ -18,7 +22,8 @@ class ChoosePositionFragment : BaseFragment() {
     private lateinit var mPositionAdapter: PositionAdapter
     lateinit var mChoosePositionViewModel: ChoosePositionViewModel
     lateinit var mChoosePositionViewModelFactory: ChoosePositionViewModelFactory
-
+    private var mCurrentFloor : Int = 1
+    private var mCurrentNumberPosition = Constants.COACH_29_POSITION
     companion object {
         private const val ARG_ID = "ID"
         private const val ARG_DATE = "date"
@@ -54,12 +59,33 @@ class ChoosePositionFragment : BaseFragment() {
                 this,
                 mChoosePositionViewModelFactory
             ).get(ChoosePositionViewModel::class.java)
-            mChoosePositionViewModel.getPositions(
-                UserData.route?.id ?: -1,
-                UserData.getDateConverted()
-            )
-        }
 
+            mCurrentFloor = 1
+            mCurrentNumberPosition = UserData.route?.numberPosition ?: Constants.COACH_46_POSITION
+            mChoosePositionViewModel.getPositions(
+                UserData.route?.id ?: Constants.NON_ID_DEFAULT,
+                UserData.getDateConverted(),
+                mCurrentFloor,
+                mCurrentNumberPosition
+            )
+
+            checkShowFloorImage()
+        }
+    }
+
+    private fun checkShowFloorImage() {
+        if (mCurrentNumberPosition == Constants.COACH_46_POSITION) {
+            if (mCurrentFloor == 1) {
+                imgNext.visible()
+                imgPrevious.invisible()
+            } else {
+                imgNext.invisible()
+                imgPrevious.visible()
+            }
+        } else {
+            imgNext.invisible()
+            imgPrevious.invisible()
+        }
     }
 
     override fun initObserver() {
@@ -84,15 +110,39 @@ class ChoosePositionFragment : BaseFragment() {
                 UserData.apply {
                     price = (route?.price ?: 0) * (position.size)
                     textSum.text = String.format("%sd", Utils.getCurrencyFormat(price))
+                    btnContinue.enable()
                 }
             } else {
                 textPositionCode.text = getString(R.string.choosePositionUnSelectedTitle)
                 textSum.text = String.format("%sd", 0)
+                btnContinue.disable()
             }
         }
         btnContinue.setOnClickListener {
             val chooseLocationFragment = ChooseLocationFragment.newInstance()
             pushFragment(chooseLocationFragment, withAnimation = true)
+        }
+
+        imgNext.setOnClickListener {
+            mCurrentFloor = 2
+            checkShowFloorImage()
+            mChoosePositionViewModel.getPositions(
+                UserData.route?.id ?: Constants.NON_ID_DEFAULT,
+                UserData.getDateConverted(),
+                mCurrentFloor,
+                mCurrentNumberPosition
+            )
+        }
+
+        imgPrevious.setOnClickListener {
+            mCurrentFloor = 1
+            checkShowFloorImage()
+            mChoosePositionViewModel.getPositions(
+                UserData.route?.id ?: Constants.NON_ID_DEFAULT,
+                UserData.getDateConverted(),
+                mCurrentFloor,
+                mCurrentNumberPosition
+            )
         }
     }
 
