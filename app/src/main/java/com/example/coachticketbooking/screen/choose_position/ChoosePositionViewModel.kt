@@ -3,7 +3,6 @@ package com.example.coachticketbooking.screen.choose_position
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.example.coachticketbooking.base.BaseViewModel
-import com.example.coachticketbooking.base.DebugLog
 import com.example.coachticketbooking.base.addToCompositeDisposable
 import com.example.coachticketbooking.base.applyScheduler
 import com.example.coachticketbooking.model.Position
@@ -13,7 +12,6 @@ import com.example.coachticketbooking.repository.chooose_position.ChoosePosition
 import com.example.coachticketbooking.repository.chooose_position.IChoosePositionRepository
 import com.example.coachticketbooking.utils.Constants
 import com.example.coachticketbooking.utils.FileManager
-import io.reactivex.rxjava3.core.Single
 
 class ChoosePositionViewModel(
     context: Context
@@ -30,7 +28,7 @@ class ChoosePositionViewModel(
     var currentRouteId: Int = -1
     var currentDate: String = Constants.EMPTY_STRING
 
-    fun getPositions(routeId: Int, date: String, floor: Int = 1) {
+    fun getPositions(routeId: Int, date: String, floor: Int = 1, numberPositionOfCoach: Int = 46) {
         val localPositions = mutableListOf<Position>()
         fileManager.readPositionLocal()
             .applyScheduler()
@@ -38,11 +36,11 @@ class ChoosePositionViewModel(
             .doOnTerminate { mLoading.value = false }
             .subscribe { positions, err ->
                 if (err == null) {
-                    localPositions.addAll(
-                        PositionConverter.convertLocalPositionToPosition(
-                            positions.coach42Position[floor - 1]
-                        )
-                    )
+                    val positionCode =
+                        if (numberPositionOfCoach == 46) positions.coach46Position[floor - 1] else positions.coach29Position
+
+                    val positionConverted = PositionConverter.convertLocalPositionToPosition(positionCode)
+                    localPositions.addAll(positionConverted)
                     mChoosePositionRepository.getPositionOfRoute(routeId, date)
                         .applyScheduler()
                         .subscribe { networkPositions, networkErr ->

@@ -7,7 +7,7 @@ import com.example.coachticketbooking.utils.Constants
 data class RouteSearchPattern(
     val pickLocation: String,
     val destination: String,
-    val date: String
+    var date: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: Constants.EMPTY_STRING,

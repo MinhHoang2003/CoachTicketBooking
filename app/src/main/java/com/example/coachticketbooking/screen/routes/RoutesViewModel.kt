@@ -1,6 +1,5 @@
 package com.example.coachticketbooking.screen.routes
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.coachticketbooking.base.BaseViewModel
 import com.example.coachticketbooking.base.addToCompositeDisposable
@@ -25,7 +24,6 @@ class RoutesViewModel : BaseViewModel() {
             .doOnSubscribe { mLoading.value = true }
             .doOnTerminate { mLoading.value = false }
             .subscribe({
-                Log.e("Hoang", it.toString())
                 routesLiveData.value = it
             }, {
                 mError.value = it.message

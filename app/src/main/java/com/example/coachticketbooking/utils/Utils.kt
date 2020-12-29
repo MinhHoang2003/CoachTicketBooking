@@ -1,15 +1,28 @@
 package com.example.coachticketbooking.utils
 
-import com.example.coachticketbooking.model.UserData
+import com.paypal.android.sdk.dt
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 object Utils {
 
     fun getCurrentTime(): String {
         val simpleDateFormat = SimpleDateFormat("dd MMMM, yyyy", Locale.ENGLISH)
         return simpleDateFormat.format(Date())
+    }
+
+    fun parseTime(time: Date) : String {
+        val simpleDateFormat = SimpleDateFormat("dd MMMM, yyyy", Locale.ENGLISH)
+        return simpleDateFormat.format(time)
+    }
+
+    fun getMaxDate(): Long {
+        val c = Calendar.getInstance()
+        c.time = Date()
+        c.add(Calendar.MONTH, 1)
+        return c.time.time
     }
 
     fun getCurrencyFormat(money: Int): String {
@@ -29,5 +42,25 @@ object Utils {
         val currentDate = currentDateFormat.parse(date)
         val networkDateFormat = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH)
         return networkDateFormat.format(currentDate ?: Constants.EMPTY_STRING)
+    }
+
+    fun increaseNextDay(date: String): String {
+        val currentDateFormat = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH)
+        var currentDate = currentDateFormat.parse(date)
+        val c = Calendar.getInstance()
+        c.time = currentDate
+        c.add(Calendar.DATE, 1)
+        currentDate = c.time
+        return currentDateFormat.format(currentDate)
+    }
+
+    fun decreasePreviousDay(date: String): String {
+        val currentDateFormat = SimpleDateFormat("dd MMM, yyyy", Locale.ENGLISH)
+        var currentDate = currentDateFormat.parse(date)
+        val c = Calendar.getInstance()
+        c.time = currentDate
+        c.add(Calendar.DATE, -1)
+        currentDate = c.time
+        return currentDateFormat.format(currentDate)
     }
 }
