@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">CoachTicketBooking</string>
-    <string name="left_menu_home">Home</string>
-    <string name="left_menu_profile">My Profile</string>
-    <string name="left_menu_my_tickets">My Tickets</string>
-    <string name="left_menu_notifications">Notifications</string>
+    <string name="left_menu_home">Trang chủ</string>
+    <string name="left_menu_profile">Thông tin của tôi</string>
+    <string name="left_menu_my_tickets">Vé của tôi</string>
+    <string name="left_menu_about_us">Liên hệ với chúng tôi</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="previewTicketScreenTitle">Thông tin vé xe</string>
@@ -15,4 +15,5 @@
     <string name="message_success_register">Đăng ký thông tin thành công</string>
     <string name="message_ticket_has_paid">Thanh toán vé xe thành công</string>
     <string name="message_qr_code_preview">Mã vé xe. \nSử dụng mã này để được lên xe.</string>
+    <string name="text_about_us">CoachTicketBooking là ứng dụng có tuổi đời còn non trẻ, được xây dựng với mục tiêu giúp người dùng có sự thuận tiện hơn trong việc đặt mua vé xe của mình. Ứng dụng còn nhiều tính năng cần phát triển. Mọi thắc mắc, gúp ý xin hay liên hệ với chúng tôi theo thông tin dưới đây:</string>
 </resources>

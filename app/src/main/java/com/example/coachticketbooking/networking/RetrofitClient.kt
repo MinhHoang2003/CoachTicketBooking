@@ -21,12 +21,13 @@ object RetrofitClient {
     private fun getHttpClient() : OkHttpClient.Builder {
         val list = arrayListOf(ConnectionSpec.COMPATIBLE_TLS, ConnectionSpec.CLEARTEXT)
         val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BASIC
+        logging.level = HttpLoggingInterceptor.Level.BODY
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor(logging)
+        httpClient.addInterceptor(ResponseInterceptor())
         httpClient.readTimeout(Constants.READ_TIME_OUT, TimeUnit.MILLISECONDS)
         httpClient.connectTimeout(Constants.CONNECTION_TIME_OUT, TimeUnit.MILLISECONDS)
-        httpClient.connectionSpecs(list)
+//        httpClient.connectionSpecs(list)
         return httpClient
     }
 

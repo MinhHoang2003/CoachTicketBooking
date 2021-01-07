@@ -17,12 +17,22 @@ object SharePreferenceUtils {
         editor.apply()
     }
 
-    fun getLocalUserInformation(context: Context): User? {
+    fun getLocalUserInformation(context: Context?): User? {
+        if(context == null) return null
         val share = context.getSharedPreferences(SHARE_PREF_USER, Context.MODE_PRIVATE)
         if (share.contains(SHARE_KEY_USER)) {
             return Gson().fromJson(share.getString(SHARE_KEY_USER, ""), User::class.java)
         }
         return null
+    }
+
+    fun logout(context: Context?) {
+        if (context == null) {
+            return
+        }
+        val editor = context.getSharedPreferences(SHARE_PREF_USER, Context.MODE_PRIVATE).edit()
+        editor.remove(SHARE_KEY_USER)
+        editor.apply()
     }
 
 }

@@ -5,18 +5,18 @@
 
     <item
         android:id="@+id/menu_home"
-        android:icon="@drawable/icon_home"
+        android:icon="@drawable/icon_home_fill"
         android:title="@string/left_menu_home" />
     <item
         android:id="@+id/menu_profile"
-        android:icon="@drawable/icon_user"
+        android:icon="@drawable/icon_profile_user"
         android:title="@string/left_menu_profile" />
     <item
         android:id="@+id/menu_ticket"
-        android:icon="@drawable/icon_ticket"
+        android:icon="@drawable/icon_ticket_fill"
         android:title="@string/left_menu_my_tickets" />
     <item
         android:id="@+id/menu_notification"
-        android:icon="@drawable/icon_alarm"
-        android:title="@string/left_menu_notifications" />
+        android:icon="@drawable/icon_email"
+        android:title="@string/left_menu_about_us" />
 </menu>

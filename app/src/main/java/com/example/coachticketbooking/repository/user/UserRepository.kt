@@ -8,17 +8,30 @@ import io.reactivex.rxjava3.core.Single
 
 class UserRepository(private val apiService: APIService) : IUserRepository {
 
-    override fun getUserInformation(phoneNumber: String): Single<User> {
-        return apiService.getUserInformation(phoneNumber).flatMap {
-            Single.just(it.firstOrNull())
-        }
-    }
+    companion object {
+        private var INSTANCE: IUserRepository? = null
 
+        fun getInstance(apiService: APIService): IUserRepository =
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: UserRepository(apiService).also { INSTANCE = it }
+            }
+
+    }
     override fun register(user: User): Completable = apiService.register(user)
 
-    override fun login(username: String, password: String): Single<List<User>> {
+    override fun login(username: String, password: String): Single<User> {
         val userLoginInformation = UserLoginInformation(username, password)
         return apiService.login(userLoginInformation)
     }
+
+    override fun getUser(phoneNumber: String): Single<User> = apiService.getUser(phoneNumber)
+    override fun updateUser(user: User, phoneNumber: String): Completable =
+        apiService.updateUser(user, phoneNumber)
+
+    override fun updateUserWithPassword(
+        user: User,
+        password: String,
+        phoneNumber: String
+    ): Completable = apiService.updateUserWithPassword(user, password, phoneNumber)
 
 }

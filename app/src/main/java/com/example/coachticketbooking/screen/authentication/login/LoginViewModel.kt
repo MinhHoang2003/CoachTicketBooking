@@ -23,9 +23,8 @@ class LoginViewModel(private val context: Context) : BaseViewModel() {
             .doOnSubscribe { mLoading.value = true }
             .doOnTerminate { mLoading.value = false }
             .subscribe { users, err ->
-                if (users.isNotEmpty()) {
-                    val user = users[0]
-                    SharePreferenceUtils.saveUserData(context, user)
+                if (err == null) {
+                    SharePreferenceUtils.saveUserData(context, users)
                     loginResultLiveData.value = true
                 }
             }.addToCompositeDisposable(disposable)

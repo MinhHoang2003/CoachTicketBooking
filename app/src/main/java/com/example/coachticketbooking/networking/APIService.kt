@@ -6,14 +6,25 @@ import io.reactivex.rxjava3.core.Single
 import retrofit2.http.*
 
 interface APIService {
-    @GET("users/{phone_number}")
-    fun getUserInformation(@Path("phone_number") phoneNumber: String): Single<List<User>>
 
     @POST("users/register/")
     fun register(@Body user: User): Completable
 
     @POST("users/login/")
-    fun login(@Body userLoginInformation: UserLoginInformation): Single<List<User>>
+    fun login(@Body userLoginInformation: UserLoginInformation): Single<User>
+
+    @GET("users/detail")
+    fun getUser(@Query("id") id: String): Single<User>
+
+    @PUT("users/update")
+    fun updateUser(@Body user: User, @Query("id") phoneNumber: String): Completable
+
+    @PUT("users/updateWithPassword")
+    fun updateUserWithPassword(
+        @Body user: User,
+        @Query("password") pass: String,
+        @Query("id") phoneNumber: String
+    ): Completable
 
     @GET("routes/search")
     fun searchRoute(
