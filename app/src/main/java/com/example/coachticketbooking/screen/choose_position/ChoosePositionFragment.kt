@@ -1,5 +1,6 @@
 package com.example.coachticketbooking.screen.choose_position
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,6 +13,7 @@ import com.example.coachticketbooking.base.view.invisible
 import com.example.coachticketbooking.base.view.visible
 import com.example.coachticketbooking.model.UserData
 import com.example.coachticketbooking.screen.choose_location.ChooseLocationFragment
+import com.example.coachticketbooking.screen.map.MapsActivity
 import com.example.coachticketbooking.utils.Constants
 import com.example.coachticketbooking.utils.Utils
 import kotlinx.android.synthetic.main.fragment_choose_position.*
@@ -143,6 +145,13 @@ class ChoosePositionFragment : BaseFragment() {
                 mCurrentFloor,
                 mCurrentNumberPosition
             )
+        }
+
+        imgMap.setOnClickListener {
+            val intent = Intent(rootActivity, MapsActivity::class.java)
+            val currentId = UserData.route?.id ?: -1
+            intent.putExtra("id", currentId)
+            startActivity(intent)
         }
     }
 

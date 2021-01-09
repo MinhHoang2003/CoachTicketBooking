@@ -16,4 +16,5 @@
     <string name="message_ticket_has_paid">Thanh toán vé xe thành công</string>
     <string name="message_qr_code_preview">Mã vé xe. \nSử dụng mã này để được lên xe.</string>
     <string name="text_about_us">CoachTicketBooking là ứng dụng có tuổi đời còn non trẻ, được xây dựng với mục tiêu giúp người dùng có sự thuận tiện hơn trong việc đặt mua vé xe của mình. Ứng dụng còn nhiều tính năng cần phát triển. Mọi thắc mắc, gúp ý xin hay liên hệ với chúng tôi theo thông tin dưới đây:</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
