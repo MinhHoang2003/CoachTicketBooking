@@ -39,6 +39,9 @@ interface APIService {
     @GET("locations/pick")
     fun getPickLocation(@Query("route_id") id: Int): Single<List<Location>>
 
+    @GET("locations/routes/")
+    fun getLocations(@Query("route_id") id: Int): Single<List<Location>>
+
     @GET("locations/destination")
     fun getDestinationLocation(@Query("route_id") id: Int): Single<List<Location>>
 

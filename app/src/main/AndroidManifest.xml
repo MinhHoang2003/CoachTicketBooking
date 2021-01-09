@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.coachticketbooking">
 
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the "MyLocation" functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -14,6 +20,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoachTicketBooking"
         tools:targetApi="n">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".screen.map.MapsActivity"
+            android:label="@string/title_activity_maps"/>
         <activity android:name=".screen.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".screen.authentication.AuthenticationActivity"></activity>
+        <activity android:name=".screen.authentication.AuthenticationActivity" />
         <activity android:name=".screen.MainActivity" />
         <activity android:name=".screen.home.HomeActivity">
             <intent-filter>

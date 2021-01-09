@@ -22,4 +22,6 @@ class LocationRepository(private val apiService: APIService) : ILocationReposito
     override fun getDestination(routeId: Int): Single<List<Location>> =
         apiService.getDestinationLocation(routeId)
 
+    override fun getAll(routeId: Int): Single<List<Location>> = apiService.getLocations(routeId)
+
 }

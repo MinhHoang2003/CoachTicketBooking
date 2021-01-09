@@ -69,4 +69,10 @@ object Utils {
         currentDate = c.time
         return currentDateFormat.format(currentDate)
     }
+
+    fun formatTime(time: String): String {
+        return if (time.length == 8) {
+            time.substring(0, 5)
+        } else time
+    }
 }

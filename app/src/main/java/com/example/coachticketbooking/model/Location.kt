@@ -13,5 +13,6 @@ data class Location(
     @SerializedName("detail_location")
     val detailLocation: String,
     val longitude: Float,
-    val latitude: Float
+    val latitude: Float,
+    val time : String
 )
