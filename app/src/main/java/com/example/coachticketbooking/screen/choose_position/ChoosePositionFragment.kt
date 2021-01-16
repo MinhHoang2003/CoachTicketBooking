@@ -2,6 +2,7 @@ package com.example.coachticketbooking.screen.choose_position
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.coachticketbooking.R
@@ -16,6 +17,7 @@ import com.example.coachticketbooking.screen.choose_location.ChooseLocationFragm
 import com.example.coachticketbooking.screen.map.MapsActivity
 import com.example.coachticketbooking.utils.Constants
 import com.example.coachticketbooking.utils.Utils
+import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.fragment_choose_position.*
 
 
@@ -26,6 +28,9 @@ class ChoosePositionFragment : BaseFragment() {
     lateinit var mChoosePositionViewModelFactory: ChoosePositionViewModelFactory
     private var mCurrentFloor : Int = 1
     private var mCurrentNumberPosition = Constants.COACH_29_POSITION
+
+    private lateinit var toast: Toast
+
     companion object {
         private const val ARG_ID = "ID"
         private const val ARG_DATE = "date"
@@ -56,6 +61,7 @@ class ChoosePositionFragment : BaseFragment() {
 
     override fun initData(bundle: Bundle?) {
         context?.let { context ->
+            toast = Toasty.warning(context, "Bạn chỉ có thể chọn tối đa 4 chỗ ngồi", Toast.LENGTH_SHORT, true)
             mChoosePositionViewModelFactory = ChoosePositionViewModelFactory(context)
             mChoosePositionViewModel = ViewModelProvider(
                 this,
@@ -104,6 +110,13 @@ class ChoosePositionFragment : BaseFragment() {
         toolbar.setNavigationOnClickListener {
             popBackStack()
         }
+
+        mPositionAdapter.onMaxPositionReach = {
+           if(toast.view?.isShown == false) {
+               toast.show()
+           }
+        }
+
         mPositionAdapter.onSelectedChangeListener = {
             if (it.isNotEmpty()) {
                 UserData.position.clear()

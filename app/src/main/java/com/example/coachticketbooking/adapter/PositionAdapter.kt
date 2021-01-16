@@ -25,6 +25,7 @@ class PositionAdapter(val context: Context) :
     val selectedPositions = mutableListOf<Position>()
     var onItemClick: ((id: String) -> Unit)? = null
     var onSelectedChangeListener: ((code: List<String>) -> Unit)? = null
+    var onMaxPositionReach: (() -> Unit)? = null
 
     fun setData(positions: List<Position>) {
         this.positions.clear()
@@ -101,6 +102,10 @@ class PositionAdapter(val context: Context) :
                 removeSelections(p)
                 showSelectionState(false)
             } else {
+                if (selectedPositions.size >= Constants.MAX_POSITION_SELECTION) {
+                    onMaxPositionReach?.invoke()
+                    return
+                }
                 addSelections(p)
                 showSelectionState(true)
             }

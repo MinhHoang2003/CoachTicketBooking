@@ -13,4 +13,6 @@ object Constants {
     const val COACH_46_POSITION = 46
     const val COACH_29_POSITION = 29
     const val NON_ID_DEFAULT = -1
+
+    const val MAX_POSITION_SELECTION = 4
 }
