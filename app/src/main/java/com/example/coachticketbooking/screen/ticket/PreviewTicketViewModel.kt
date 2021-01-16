@@ -2,7 +2,6 @@ package com.example.coachticketbooking.screen.ticket
 
 import androidx.lifecycle.MutableLiveData
 import com.example.coachticketbooking.base.BaseViewModel
-import com.example.coachticketbooking.base.DebugLog
 import com.example.coachticketbooking.base.addToCompositeDisposable
 import com.example.coachticketbooking.base.applyScheduler
 import com.example.coachticketbooking.model.TicketLocalModel
@@ -17,6 +16,7 @@ class PreviewTicketViewModel : BaseViewModel() {
     }
 
     val ticketIdLiveDate: MutableLiveData<Int> = MutableLiveData(-1)
+    val payTicketResult = MutableLiveData<Boolean>()
 
     fun createTicket(ticket: TicketLocalModel) {
         mTicketRepository.createTicket(ticket)
@@ -28,6 +28,18 @@ class PreviewTicketViewModel : BaseViewModel() {
                     ticketIdLiveDate.value = ticketId.toInt()
                 }
             }.addToCompositeDisposable(disposable)
+    }
+
+    fun payTicket(ticketId: Int) {
+        mTicketRepository.payTicket(ticketId)
+            .applyScheduler()
+            .doOnSubscribe { mLoading.value = true }
+            .doOnTerminate { mLoading.value = false }
+            .subscribe({
+                payTicketResult.value = true
+            }, {
+                payTicketResult.value = false
+            }).addToCompositeDisposable(disposable)
     }
 
 

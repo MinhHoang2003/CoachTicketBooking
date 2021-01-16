@@ -4,6 +4,7 @@ import com.example.coachticketbooking.model.Ticket
 import com.example.coachticketbooking.model.TicketDetail
 import com.example.coachticketbooking.model.TicketLocalModel
 import com.example.coachticketbooking.networking.APIService
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
 class TicketRepository(private val apiService: APIService) : ITicketRepository {
@@ -14,5 +15,6 @@ class TicketRepository(private val apiService: APIService) : ITicketRepository {
         apiService.getMyTickets(phoneNumber)
 
     override fun getTicketDetail(id: Int): Single<TicketDetail> = apiService.getTicketDetail(id)
+    override fun payTicket(id: Int): Completable = apiService.payTicket(id)
 
 }

@@ -53,4 +53,7 @@ interface APIService {
 
     @GET("tickets/detail")
     fun getTicketDetail(@Query("id") id : Int): Single<TicketDetail>
+
+    @PUT("tickets/pay")
+    fun payTicket(@Query("id") id : Int): Completable
 }

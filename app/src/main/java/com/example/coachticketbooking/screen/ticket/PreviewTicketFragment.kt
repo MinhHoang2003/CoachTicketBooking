@@ -34,10 +34,12 @@ class PreviewTicketFragment : BaseFragment() {
 
     companion object {
         const val PAY_PAL_REQUEST_CODE = 1111
+        const val LOGIN_REQUEST_CODE = 1
         fun newInstance() = PreviewTicketFragment()
     }
 
     private lateinit var mPreviewTicketViewModel: PreviewTicketViewModel
+    private var newTicketId : Int = -1
     override fun getLayoutId(): Int = R.layout.preview_ticket_fragment
 
 
@@ -66,26 +68,46 @@ class PreviewTicketFragment : BaseFragment() {
         mPreviewTicketViewModel.ticketIdLiveDate.observe(this, { ticketId ->
             if (ticketId == -1) return@observe
             else {
-                val qr = QRCode.from(ticketId.toString()).bitmap()
-                context?.let {
-                    val dialogPreviewTicket = DialogTicketQRPreview(it)
-                    dialogPreviewTicket.showDialog(qr)
-                    dialogPreviewTicket.setOnDismissListener {
-                        rootActivity?.finish()
-                    }
-                    Toasty.success(
-                        it,
-                        getString(R.string.message_ticket_has_paid),
-                        Toast.LENGTH_SHORT,
-                        true
-                    ).show()
-                }
+                newTicketId = ticketId
+                processPayment(
+                    UserData.price,
+                    String.format(
+                        "%s -> %s",
+                        UserData.route?.startAddress,
+                        UserData.route?.endAddress
+                    )
+                )
             }
         })
 
-        mPreviewTicketViewModel.mLoading.observe(this, {
-            if(it) showLoading() else hideLoading()
+        mPreviewTicketViewModel.payTicketResult.observe(this, {
+            if (it) showQRPayTicket()
         })
+
+        mPreviewTicketViewModel.mLoading.observe(this, {
+            if (it) showLoading() else hideLoading()
+        })
+    }
+
+    private fun showQRPayTicket() {
+        if (newTicketId == -1) {
+            showError("Có lỗi xảy ra khi lấy mã QR cho vé xe!!!")
+            return
+        }
+        val qr = QRCode.from(newTicketId.toString()).bitmap()
+        context?.let {
+            val dialogPreviewTicket = DialogTicketQRPreview(it)
+            dialogPreviewTicket.showDialog(qr)
+            dialogPreviewTicket.setOnDismissListener {
+                rootActivity?.finish()
+            }
+            Toasty.success(
+                it,
+                getString(R.string.message_ticket_has_paid),
+                Toast.LENGTH_SHORT,
+                true
+            ).show()
+        }
     }
 
     override fun initListener() {
@@ -93,16 +115,9 @@ class PreviewTicketFragment : BaseFragment() {
             context?.let {
                 val localUser = SharePreferenceUtils.getLocalUserInformation(it)
                 if (localUser == null) {
-                    startActivityForResult(Intent(context, AuthenticationActivity::class.java), 1)
+                    startActivityForResult(Intent(context, AuthenticationActivity::class.java), LOGIN_REQUEST_CODE)
                 } else {
-                    processPayment(
-                        UserData.price,
-                        String.format(
-                            "%s -> %s",
-                            UserData.route?.startAddress,
-                            UserData.route?.endAddress
-                        )
-                    )
+                    requestTicket()
                 }
             }
         }
@@ -147,7 +162,7 @@ class PreviewTicketFragment : BaseFragment() {
                         UserData.route?.id ?: -1,
                         UserData.getDateConverted(),
                         UserData.price,
-                        1,
+                        0,
                         UserData.pickLocation?.id ?: -1,
                         UserData.destination?.id ?: -1,
                         UserData.position.map { it.positionCode },
@@ -159,22 +174,28 @@ class PreviewTicketFragment : BaseFragment() {
         }
     }
 
+    private fun showError(message : String) {
+        context?.let {
+            Toasty.error(
+                it,
+                message,
+                Toast.LENGTH_SHORT,
+                true
+            ).show()
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PAY_PAL_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                requestTicket()
+                if (newTicketId != -1) {
+                    mPreviewTicketViewModel.payTicket(newTicketId)
+                } else showError("Lỗi xảy ra khi thanh toán, vui lòng thử lại")
             } else {
-                context?.let {
-                    Toasty.error(
-                        it,
-                        "Lỗi xảy ra khi thanh toán, vui lòng thử lại",
-                        Toast.LENGTH_SHORT,
-                        true
-                    ).show()
-                }
+                showError("Lỗi xảy ra khi thanh toán, vui lòng thử lại")
             }
-        } else if (requestCode == 1) {
+        } else if (requestCode == LOGIN_REQUEST_CODE) {
             processPayment(
                 UserData.price,
                 String.format(
