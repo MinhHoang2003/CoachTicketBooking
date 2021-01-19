@@ -128,6 +128,7 @@ class ChoosePositionFragment : BaseFragment() {
                     btnContinue.enable()
                 }
             } else {
+                UserData.position.clear()
                 textPositionCode.text = getString(R.string.choosePositionUnSelectedTitle)
                 textSum.text = String.format("%sd", 0)
                 btnContinue.disable()
