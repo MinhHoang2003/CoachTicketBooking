@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.coachticketbooking.R
 import com.example.coachticketbooking.adapter.PositionAdapter
 import com.example.coachticketbooking.base.BaseFragment
+import com.example.coachticketbooking.base.DebugLog
 import com.example.coachticketbooking.base.view.disable
 import com.example.coachticketbooking.base.view.enable
 import com.example.coachticketbooking.base.view.invisible
 import com.example.coachticketbooking.base.view.visible
+import com.example.coachticketbooking.model.Position
 import com.example.coachticketbooking.model.UserData
 import com.example.coachticketbooking.screen.choose_location.ChooseLocationFragment
 import com.example.coachticketbooking.screen.map.MapsActivity
@@ -19,6 +21,7 @@ import com.example.coachticketbooking.utils.Constants
 import com.example.coachticketbooking.utils.Utils
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.fragment_choose_position.*
+import java.lang.IndexOutOfBoundsException
 
 
 class ChoosePositionFragment : BaseFragment() {
@@ -99,11 +102,32 @@ class ChoosePositionFragment : BaseFragment() {
     override fun initObserver() {
         mChoosePositionViewModel.positionsLiveData.observe(this, {
             mPositionAdapter.setData(it)
+            checkPosition(it)
             mPositionAdapter.addSelectionPosition(UserData.position)
         })
         mChoosePositionViewModel.mLoading.observe(this, {
             if(it) showLoading() else hideLoading()
         })
+    }
+
+    private fun checkPosition(positions: List<Position>) {
+        val delete = arrayListOf<Int>()
+        positions.forEach { selectPosition ->
+            if (selectPosition.hasPaid == 1) {
+                UserData.position.forEachIndexed { index, position ->
+                    if (position.positionCode == selectPosition.positionCode) {
+                       delete.add(index)
+                    }
+                }
+            }
+        }
+        try {
+            delete.forEach {
+                UserData.position.removeAt(it)
+            }
+        } catch (e : IndexOutOfBoundsException) {
+            DebugLog.e("Err : ${e.message}")
+        }
     }
 
     override fun initListener() {

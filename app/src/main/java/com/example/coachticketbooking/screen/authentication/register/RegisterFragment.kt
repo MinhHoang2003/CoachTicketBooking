@@ -60,8 +60,15 @@ class RegisterFragment : BaseFragment(), View.OnClickListener {
         when (v) {
             btnRegister -> {
                 getUserData { user, err ->
-                    if (err == VALIDATE_FIELDS) {
-                        mRegisterViewModel?.register(user!!)
+                    when(err) {
+                        VALIDATE_FIELDS -> {
+                            mRegisterViewModel?.register(user!!)
+                        }
+
+                        ERROR_CODE_PASSWORD_NOT_SAME -> {
+                            edtConfirmPassword.error = "Xác nhận mật khẩu không trùng khớp."
+                            edtConfirmPassword.requestFocus()
+                        }
                     }
                 }
             }
@@ -75,10 +82,31 @@ class RegisterFragment : BaseFragment(), View.OnClickListener {
 
     private fun getUserData(result: (User?, Int) -> Unit) {
         val phoneNumber = edtPhoneNumber.text.toString()
+        if (phoneNumber.isBlank()) {
+            edtPhoneNumber.error = "Số điện thoại không được để trống"
+            edtPhoneNumber.requestFocus()
+            return
+        }
         val name = edtName.text.toString()
+
+        if (name.isBlank()) {
+            edtName.error = "Tên không được để trống"
+            edtName.requestFocus()
+            return
+        }
         val email = edtEmail.text.toString()
         val password = edtPassword.text.toString()
+        if (password.isBlank()) {
+            edtPassword.error = "Mật khẩu không được để trống"
+            edtPassword.requestFocus()
+            return
+        }
         val confirmPassword = edtConfirmPassword.text.toString()
+        if (confirmPassword.isBlank()) {
+            edtConfirmPassword.error = "Xác nhận mật khẩu không được để trống"
+            edtConfirmPassword.requestFocus()
+            return
+        }
         val address = edtAddress.text.toString()
         if (password == confirmPassword) {
             result.invoke(User(phoneNumber, name, "", email, password, address, 0), VALIDATE_FIELDS)

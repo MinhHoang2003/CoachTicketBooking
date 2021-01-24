@@ -16,6 +16,7 @@ import com.example.coachticketbooking.model.UserData
 import com.example.coachticketbooking.screen.authentication.AuthenticationActivity
 import com.example.coachticketbooking.utils.Constants
 import com.example.coachticketbooking.utils.SharePreferenceUtils
+import com.example.coachticketbooking.utils.ToastyUtils
 import com.example.coachticketbooking.utils.Utils
 import com.paypal.android.sdk.payments.PayPalConfiguration
 import com.paypal.android.sdk.payments.PayPalPayment
@@ -86,6 +87,10 @@ class PreviewTicketFragment : BaseFragment() {
 
         mPreviewTicketViewModel.mLoading.observe(this, {
             if (it) showLoading() else hideLoading()
+        })
+
+        mPreviewTicketViewModel.mError.observe(this, {
+            if (it.isNotBlank()) ToastyUtils.showError(context, it)
         })
     }
 
@@ -195,7 +200,7 @@ class PreviewTicketFragment : BaseFragment() {
             } else {
                 showError("Lỗi xảy ra khi thanh toán, vui lòng thử lại")
             }
-        } else if (requestCode == LOGIN_REQUEST_CODE) {
+        } else if (requestCode == LOGIN_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             processPayment(
                 UserData.price,
                 String.format(

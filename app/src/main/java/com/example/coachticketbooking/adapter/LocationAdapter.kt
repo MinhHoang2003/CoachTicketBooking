@@ -37,7 +37,8 @@ class LocationAdapter : RecyclerView.Adapter<LocationAdapter.LocationViewHolder>
 
         fun bindView(location: Location) {
             itemView.radioButtonCheck.isChecked = adapterPosition == mCurrentLocation
-            itemView.textPosition.text = location.city
+            val localTime = if (location.time.length == 8) location.time.substring(0, 5) else location.time
+            itemView.textPosition.text = String.format("%s, %s",localTime ,location.detailLocation)
         }
 
         override fun onClick(v: View?) {

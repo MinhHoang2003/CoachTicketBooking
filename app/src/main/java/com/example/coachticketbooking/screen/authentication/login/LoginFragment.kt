@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.example.coachticketbooking.R
 import com.example.coachticketbooking.base.BaseFragment
 import com.example.coachticketbooking.screen.authentication.register.RegisterFragment
+import com.example.coachticketbooking.utils.ToastyUtils
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.login_fragment.*
 
@@ -54,6 +55,12 @@ class LoginFragment : BaseFragment(), View.OnClickListener {
                 rootActivity?.finish()
             }
         })
+
+        mLoginViewModel.mError.observe(this, {
+            if (it.isNotBlank()) {
+                ToastyUtils.showError(context, it)
+            }
+        })
     }
 
     override fun initListener() {
@@ -66,7 +73,9 @@ class LoginFragment : BaseFragment(), View.OnClickListener {
             btnLogin -> {
                 val phoneNumber: String = edtPhoneNumber.text.toString()
                 val password: String = edtPassword.text.toString()
-                mLoginViewModel.login(phoneNumber, password)
+                if (phoneNumber.isBlank() || password.isBlank()) {
+                  ToastyUtils.showError(context, "Số điện thoại hoặc mật khẩu không được để trống")
+                } else mLoginViewModel.login(phoneNumber, password)
             }
 
             textSignUp -> {

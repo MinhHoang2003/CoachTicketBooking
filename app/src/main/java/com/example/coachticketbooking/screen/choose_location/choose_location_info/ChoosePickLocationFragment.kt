@@ -42,6 +42,10 @@ class ChoosePickLocationFragment : BaseFragment() {
     private val mLocationAdapter = LocationAdapter()
     override fun getLayoutId(): Int = R.layout.choose_pick_location_fragment
 
+    var onPickLocationSelected: (() -> Unit)? = null
+    var onDestinationLocationSelected: (() -> Unit)? = null
+
+
     override fun initView() {
         recyclerLocationPicker.apply {
             adapter = mLocationAdapter
@@ -88,8 +92,10 @@ class ChoosePickLocationFragment : BaseFragment() {
         mLocationAdapter.onLocationClickListener = {
             if (mCurrentMode == MODE_PICK_LOCATION) {
                 UserData.pickLocation = it
+                onPickLocationSelected?.invoke()
             } else {
                 UserData.destination = it
+                onDestinationLocationSelected?.invoke()
             }
         }
     }

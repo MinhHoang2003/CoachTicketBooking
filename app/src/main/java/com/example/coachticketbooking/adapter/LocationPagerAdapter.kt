@@ -8,13 +8,23 @@ import com.example.coachticketbooking.screen.choose_location.choose_location_inf
 class LocationPagerAdapter(fmn: FragmentManager) :
     FragmentStatePagerAdapter(fmn, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
+    var onPositionSelected : (() -> Unit)? = null
+
     override fun getCount(): Int = 2
 
     override fun getItem(position: Int): Fragment {
-        return when (position) {
+        val fragment =  when (position) {
             0 -> ChoosePickLocationFragment.newInstance(ChoosePickLocationFragment.MODE_PICK_LOCATION)
             else -> ChoosePickLocationFragment.newInstance(ChoosePickLocationFragment.MODE_DESTINATION)
         }
+
+        if (position == 0) {
+            fragment.onPickLocationSelected = onPositionSelected
+        } else {
+            fragment.onDestinationLocationSelected = onPositionSelected
+        }
+
+        return fragment
     }
 
     override fun getPageTitle(position: Int): CharSequence? {

@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coachticketbooking.R
 import com.example.coachticketbooking.model.Route
+import com.example.coachticketbooking.utils.Constants
 import kotlinx.android.synthetic.main.layout_route_items.view.*
 
 class RouteAdapter : RecyclerView.Adapter<RouteAdapter.RouteViewHolder>() {
@@ -41,9 +42,14 @@ class RouteAdapter : RecyclerView.Adapter<RouteAdapter.RouteViewHolder>() {
             textEndTime.text = route.endTime
             textEndLocation.text = route.endAddress
             textPrice.text = String.format("%s d", route.price.toString())
-            textPositionNumber.text =
+
+            textPositionNumber.text = if (route.numberPosition == Constants.COACH_46_POSITION) {
                 String.format("Giường nằm %s chỗ", route.numberPosition.toString())
-            textRemainingPositionNumber.text = String.format("(Còn %s chỗ)", route.remain)
+            } else {
+                String.format("Xe %s chỗ", route.numberPosition.toString())
+            }
+            textRemainingPositionNumber.text =
+                String.format("(Còn %s chỗ)", (route.numberPosition - route.remain))
         }
 
         override fun onClick(v: View?) {

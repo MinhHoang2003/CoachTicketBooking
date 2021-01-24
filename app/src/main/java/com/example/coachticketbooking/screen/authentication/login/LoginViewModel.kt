@@ -26,6 +26,8 @@ class LoginViewModel(private val context: Context) : BaseViewModel() {
                 if (err == null) {
                     SharePreferenceUtils.saveUserData(context, users)
                     loginResultLiveData.value = true
+                } else {
+                    mError.value = "Sai thông tin đăng nhập hoặc mật khẩu."
                 }
             }.addToCompositeDisposable(disposable)
     }

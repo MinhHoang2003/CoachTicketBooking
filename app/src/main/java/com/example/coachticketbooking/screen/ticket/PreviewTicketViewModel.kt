@@ -26,6 +26,8 @@ class PreviewTicketViewModel : BaseViewModel() {
             .subscribe { ticketId, err ->
                 if (err == null) {
                     ticketIdLiveDate.value = ticketId.toInt()
+                } else {
+                    mError.value = "Chỗ ngồi bạn chọn đã được một hành khách khác thanh toán trước. Vui lòng chọn lại chỗ ngồi"
                 }
             }.addToCompositeDisposable(disposable)
     }

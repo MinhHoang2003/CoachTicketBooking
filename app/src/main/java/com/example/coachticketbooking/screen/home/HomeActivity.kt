@@ -29,7 +29,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         const val TAG_HOME = "Home"
         const val TAG_MY_PROFILE = "MyProfile"
         const val TAG_MY_TICKETS = "MyTickets"
-        const val TAG_NOTIFICATIONS = "Notifications"
+        const val TAG_ABOUT_US = "Notifications"
     }
 
     private var mCurrentTag = TAG_HOME
@@ -84,10 +84,10 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             TAG_HOME -> HomeFragment.newInstance()
             TAG_MY_TICKETS -> MyTicketFragment.newInstance()
             TAG_MY_PROFILE -> ProfileFragment.newInstance()
-            TAG_NOTIFICATIONS -> AboutUsFragment.newInstance()
+            TAG_ABOUT_US -> AboutUsFragment.newInstance()
             else -> HomeFragment.newInstance()
         }
-        if(mCurrentTag != TAG_HOME) {
+        if(mCurrentTag != TAG_HOME && mCurrentTag != TAG_ABOUT_US) {
             val localUser = SharePreferenceUtils.getLocalUserInformation(applicationContext)
             if (localUser == null) {
                 startActivityForResult(Intent(this, AuthenticationActivity::class.java), 1)
@@ -102,7 +102,7 @@ class HomeActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.menu_home -> mCurrentTag = TAG_HOME
             R.id.menu_ticket -> mCurrentTag = TAG_MY_TICKETS
             R.id.menu_profile -> mCurrentTag = TAG_MY_PROFILE
-            R.id.menu_notification -> mCurrentTag = TAG_NOTIFICATIONS
+            R.id.menu_notification -> mCurrentTag = TAG_ABOUT_US
         }
         showFragment()
         drawerLayout.closeDrawer(GravityCompat.START)
