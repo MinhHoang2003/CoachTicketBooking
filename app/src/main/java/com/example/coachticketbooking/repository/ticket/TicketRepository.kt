@@ -16,5 +16,5 @@ class TicketRepository(private val apiService: APIService) : ITicketRepository {
 
     override fun getTicketDetail(id: Int): Single<TicketDetail> = apiService.getTicketDetail(id)
     override fun payTicket(id: Int): Completable = apiService.payTicket(id)
-
+    override fun removeTicket(id: Int): Completable = apiService.removeTicket(id)
 }

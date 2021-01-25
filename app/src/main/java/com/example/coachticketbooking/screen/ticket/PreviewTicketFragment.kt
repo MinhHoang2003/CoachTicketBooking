@@ -198,7 +198,8 @@ class PreviewTicketFragment : BaseFragment() {
                     mPreviewTicketViewModel.payTicket(newTicketId)
                 } else showError("Lỗi xảy ra khi thanh toán, vui lòng thử lại")
             } else {
-                showError("Lỗi xảy ra khi thanh toán, vui lòng thử lại")
+                showError("Thanh toán không thành công.")
+                mPreviewTicketViewModel.removeTempTicket(newTicketId)
             }
         } else if (requestCode == LOGIN_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             processPayment(

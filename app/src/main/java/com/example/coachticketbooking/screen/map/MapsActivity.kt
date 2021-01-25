@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.coachticketbooking.R
+import com.example.coachticketbooking.base.DebugLog
 import com.example.coachticketbooking.model.StopStation
 import com.example.coachticketbooking.utils.Utils
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -47,6 +48,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_maps)
         mMapViewModel = ViewModelProvider(this).get(MapViewModel::class.java)
         imgExit.setOnClickListener {
+            Log.e("Hoang","on exit")
             onBackPressed()
         }
         mCurrentRouteId = intent.getIntExtra("id", -1)
@@ -87,9 +89,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
             mapFragment.getMapAsync(this)
-            if(mCurrentRouteId != -1) {
-                mMapViewModel.getLocation(mCurrentRouteId)
-            }
         }
     }
 
@@ -104,10 +103,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     MarkerOptions()
                         .position(current)
                 ).tag = "you"
+                DebugLog.d("Hoang on add my location")
                 mMapViewModel.location.observe(this, { locations ->
                     locations.forEach {
                         val first = LatLng(it.latitude.toDouble(), it.longitude.toDouble())
                         builder.include(first)
+                        DebugLog.d("Hoang on add new marker : ${it.detailLocation}, ${it.latitude.toDouble()}, ${it.longitude.toDouble()}")
                         mMap.addMarker(
                             MarkerOptions()
                                 .position(first)
@@ -122,6 +123,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     val cu = CameraUpdateFactory.newLatLngBounds(bounds, 200)
                     mMap.moveCamera(cu)
                 })
+            }
+            if(mCurrentRouteId != -1) {
+                mMapViewModel.getLocation(mCurrentRouteId)
             }
         }
     }

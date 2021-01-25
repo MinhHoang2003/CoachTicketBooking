@@ -11,4 +11,5 @@ interface ITicketRepository {
     fun getMyTickets(phoneNumber: String): Single<List<Ticket>>
     fun getTicketDetail(id: Int): Single<TicketDetail>
     fun payTicket(id: Int): Completable
+    fun removeTicket(id: Int): Completable
 }

@@ -110,6 +110,7 @@ class RegisterFragment : BaseFragment(), View.OnClickListener {
         val address = edtAddress.text.toString()
         if (password == confirmPassword) {
             result.invoke(User(phoneNumber, name, "", email, password, address, 0), VALIDATE_FIELDS)
+            return
         }
         result.invoke(null, ERROR_CODE_PASSWORD_NOT_SAME)
     }

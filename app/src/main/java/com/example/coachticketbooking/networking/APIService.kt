@@ -56,4 +56,7 @@ interface APIService {
 
     @PUT("tickets/pay")
     fun payTicket(@Query("id") id : Int): Completable
+
+    @PUT("tickets/remove")
+    fun removeTicket(@Query("id") id : Int): Completable
 }
