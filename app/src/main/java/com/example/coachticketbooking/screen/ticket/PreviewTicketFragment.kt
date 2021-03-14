@@ -30,7 +30,7 @@ import java.math.BigDecimal
 class PreviewTicketFragment : BaseFragment() {
 
     private val payPalConfig: PayPalConfiguration =
-        PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+        PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_NO_NETWORK)
             .clientId(Constants.PAYPAL_CLIENT_ID)
 
     companion object {
